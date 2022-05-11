@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,8 +7,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Services;
 
-namespace AdvancedProgrammingWebServer
+namespace WebServerApp
 {
     public class Startup
     {
@@ -23,6 +25,8 @@ namespace AdvancedProgrammingWebServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            //todo: check for what??
+            services.AddTransient<RateService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,7 +38,7 @@ namespace AdvancedProgrammingWebServer
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error");
             }
             app.UseStaticFiles();
 
@@ -46,7 +50,7 @@ namespace AdvancedProgrammingWebServer
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Rate}/{action=Index}/{id?}");
             });
         }
     }
