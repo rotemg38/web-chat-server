@@ -53,7 +53,7 @@ namespace WebServerApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Id,Name,RateNumber,TextReview")] Rate rate)
+        public IActionResult Create([Bind("Id,Name,RateNumber,Feedback")] Rate rate)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +84,7 @@ namespace WebServerApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("Id,Name,RateNumber,TextReview")] Rate rate)
+        public IActionResult Edit(int id, [Bind("Id,Name,RateNumber,Feedback")] Rate rate)
         {
             if (id != rate.Id)
             {

@@ -1,4 +1,4 @@
-@model List<Models.Rate>
+@model IEnumerable<Models.Rate>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,16 +13,13 @@
     <thead>
         <tr>
             <th>
-                Name
+                @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                Rate number
+                @Html.DisplayNameFor(model => model.RateNumber)
             </th>
             <th>
-                Feedback
-            </th>
-            <th>
-                Date
+                @Html.DisplayNameFor(model => model.Feedback)
             </th>
             <th></th>
         </tr>
