@@ -9,8 +9,11 @@ namespace Models
 
         public string Name { get; set; }
 
+        [Range(1, 5)]
         public int RateNumber { get; set; }
 
-        public string TextReview { get; set; }
+        public string Feedback { get; set; }
+
+        //public string date { get; set; }
     }
 }

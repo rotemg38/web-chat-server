@@ -7,12 +7,11 @@ namespace Services
     //todo: in the future we ill add Repository project that will access to DB.
     public class RateService
     {
-        private static List<Rate> _ratings;
-        
+        private static List<Rate> _ratings = new List<Rate>();
+
         public RateService()
         {
-            _ratings = new List<Rate>();
-            _ratings.Add(new Rate() { Id = 1, TextReview = "great app", Name = "user1", RateNumber = 5 });
+            //_ratings.Add(new Rate() { Id = 1, TextReview = "great app", Name = "user1", RateNumber = 5 });
         }
 
         public Rate GetRate(int? id)
@@ -27,15 +26,19 @@ namespace Services
 
         public void Add(Rate rate)
         {
-            //todo
+            _ratings.Add(rate);
         }
         public void Update(Rate rate)
-        {
-            //todo
+        { // plaster :(
+            Rate updatedRate = _ratings.Find((updatedRate) => { return updatedRate.Id == rate.Id; });
+            _ratings.Remove(updatedRate);
+            _ratings.Add(rate);
+            
         }
         public void Remove(int id)
         {
-            //todo
+            Rate remRate = _ratings.Find((remRate) => { return remRate.Id == id; });
+            _ratings.Remove(remRate);
         }
 
         
