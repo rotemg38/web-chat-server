@@ -29,11 +29,10 @@ namespace Services
             _ratings.Add(rate);
         }
         public void Update(Rate rate)
-        { // plaster :(
+        { 
             Rate updatedRate = _ratings.Find((updatedRate) => { return updatedRate.Id == rate.Id; });
-            _ratings.Remove(updatedRate);
-            _ratings.Add(rate);
-            
+            updatedRate.Name = rate.Name;
+            updatedRate.Feedback = rate.Feedback;
         }
         public void Remove(int id)
         {
