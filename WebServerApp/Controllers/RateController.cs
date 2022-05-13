@@ -55,6 +55,7 @@ namespace WebServerApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("Id,Name,RateNumber,Feedback")] Rate rate)
         {
+            
             if (ModelState.IsValid)
             {
                 _context.Add(rate);
