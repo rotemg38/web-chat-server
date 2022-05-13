@@ -8,13 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using Models;
 using Services;
 
+
 namespace WebServerApp.Controllers
 {
     public class RateController : Controller
     {
-        private readonly RateService _context;
+        private readonly IRateService _context;
 
-        public RateController(RateService context)
+        public RateController(IRateService context)
         {
             _context = context;
         }
