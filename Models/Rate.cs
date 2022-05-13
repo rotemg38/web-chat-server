@@ -14,6 +14,11 @@ namespace Models
 
         public string Feedback { get; set; }
 
-        //public string date { get; set; }
+        public DateTime WhenCreated { get; set; }
+
+        public Rate()
+        {
+            WhenCreated = DateTime.Now;
+        }
     }
 }
