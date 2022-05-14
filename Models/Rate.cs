@@ -16,11 +16,11 @@ namespace Models
         public string Feedback { get; set; }
 
         [Display(Name= "Created Time")]
-        public DateTime WhenCreated { get; set; }
+        public string WhenCreated { get; set; }
 
         public Rate()
         {
-            WhenCreated = DateTime.Now;
+            WhenCreated = DateTime.Now.ToString();
         }
     }
 }

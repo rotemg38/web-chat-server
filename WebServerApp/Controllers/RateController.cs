@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -28,14 +29,13 @@ namespace WebServerApp.Controllers
             return View(_context.GetAll());
         }
 
-        // POST: Rate
-        [HttpPost]
-        public IActionResult Index(string query)
+       
+        public IActionResult Search(string query)
         {
             float avrg = _context.GetAvr();
             ViewData["avrage"] = avrg;
             List<Rate> rates = _context.Search(query);
-            return View(rates);
+            return Json(JsonSerializer.Serialize(rates));
         }
 
 
