@@ -1,0 +1,27 @@
+﻿.cardBody {
+    border-radius: 10px;
+    box-shadow: 0px 8px 20px 0px rgb(0 0 0 / 15%);
+    background-color: white;
+    padding: 5%;
+}
+
+.headline {
+    text-align: center;
+    height: 90px;
+    color: black;
+    font-weight: bold;
+    line-height: 80px;
+    border: 1px solid #fff;
+    background: -webkit-linear-gradient(#0072ff, #8811c5);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.headline > h1 {
+    font-size: 3.5rem;
+}
+
+.form-content {
+    margin-bottom: 2%;
+}
