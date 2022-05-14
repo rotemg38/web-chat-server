@@ -1,14 +1,8 @@
 @model IEnumerable<Models.Rate>
 
-@{
-    ViewData["Title"] = "Rating";
-}
-
-
 @section Styles{
     <link rel="stylesheet" href="~/css/generalCardDesign.css"/>
 }
-
 
 <div class="cardBody">
     <div class="headline">
@@ -21,70 +15,71 @@
 
                 <p>
                     <a class="btn btn-primary" asp-action="Create">Create New</a>
-
                     <label class="alert">Avrage Rate: @ViewData["avrage"]</label>
                 </p>
-                @if (Model.Count() != 0)
-                {
+
+
+                <form asp-action="Index">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="search feedback" aria-label="search feedback">
+                        <input id="search" name="query" type="text" class="form-control" placeholder="search feedback"
+                               aria-label="search feedback">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-primary" type="button">Search</button>
+                            <button class="btn btn-outline-primary" type="submit">Search</button>
                         </div>
                     </div>
+                </form>
 
+                <a style="float:right;" asp-action="Index">Reset</a>
 
-                    <table class="table">
-                        <thead>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.RateNumber)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Feedback)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.WhenCreated)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
                             <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Name)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.RateNumber)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Feedback)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.WhenCreated)
-                                </th>
-                                <th></th>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RateNumber)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Feedback)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.WhenCreated)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.RateNumber)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Feedback)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.WhenCreated)
-                                    </td>
-                                    <td>
-                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                    </td>
-                                </tr>
-                            }
+                        }
 
-
-
-                        </tbody>
-                    </table>
-                }
-                else
+                    </tbody>
+                </table>
+                @if (Model.Count() == 0)
                 {
                     <div class="alert alert-primary" role="alert">
-                        No Rating, Pleas Rate Our App :)
+                        No Rating Found
                     </div>
                 }
 
