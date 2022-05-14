@@ -25,8 +25,7 @@ namespace WebServerApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            //todo: check for what??
-            services.AddTransient<RateService>();
+            services.AddTransient<IRateService,RateService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
