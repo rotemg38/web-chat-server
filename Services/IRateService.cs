@@ -11,5 +11,7 @@ namespace Services
         public void Add(Rate rate);
         public void Update(Rate rate);
         public void Remove(int id);
+
+        public float GetAvr();
     }
 }

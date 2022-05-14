@@ -40,6 +40,20 @@ namespace Services
             _ratings.Remove(remRate);
         }
 
+        public float GetAvr()
+        {
+            float avrg = 0, numOfRats = 0;
+            foreach (var rate in _ratings)
+            {
+                avrg += rate.RateNumber;
+                numOfRats++;
+            }
+            if (numOfRats == 0)
+            {
+                return 0;
+            }
+            return avrg / numOfRats;
+        }
         
         
     }

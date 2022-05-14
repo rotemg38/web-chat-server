@@ -23,6 +23,8 @@ namespace WebServerApp.Controllers
         // GET: Rate
         public IActionResult Index()
         {
+            float avrg = _context.GetAvr();
+            ViewData["avrage"] = avrg;
             return View(_context.GetAll());
         }
 
