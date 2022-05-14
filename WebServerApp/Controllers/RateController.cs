@@ -28,6 +28,17 @@ namespace WebServerApp.Controllers
             return View(_context.GetAll());
         }
 
+        // POST: Rate
+        [HttpPost]
+        public IActionResult Index(string query)
+        {
+            float avrg = _context.GetAvr();
+            ViewData["avrage"] = avrg;
+            List<Rate> rates = _context.Search(query);
+            return View(rates);
+        }
+
+
         // GET: Rate/Details/5
         public IActionResult Details(int? id)
         {
@@ -142,6 +153,8 @@ namespace WebServerApp.Controllers
             _context.Remove(id);
             return RedirectToAction(nameof(Index));
         }
+
+       
 
         private bool RateExists(int id)
         {
