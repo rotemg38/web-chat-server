@@ -59,9 +59,11 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background: -webkit-linear-gradient(left, #0073ff9d, #8911c5b2);
 }
+
 .footer {
   position: absolute;
   bottom: 0;
