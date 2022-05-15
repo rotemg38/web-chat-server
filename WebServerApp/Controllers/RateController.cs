@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -27,6 +28,16 @@ namespace WebServerApp.Controllers
             ViewData["avrage"] = avrg;
             return View(_context.GetAll());
         }
+
+       
+        public IActionResult Search(string query)
+        {
+            float avrg = _context.GetAvr();
+            ViewData["avrage"] = avrg;
+            List<Rate> rates = _context.Search(query);
+            return Json(JsonSerializer.Serialize(rates));
+        }
+
 
         // GET: Rate/Details/5
         public IActionResult Details(int? id)
@@ -142,6 +153,8 @@ namespace WebServerApp.Controllers
             _context.Remove(id);
             return RedirectToAction(nameof(Index));
         }
+
+       
 
         private bool RateExists(int id)
         {

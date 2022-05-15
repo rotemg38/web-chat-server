@@ -10,15 +10,17 @@ namespace Models
         public string Name { get; set; }
 
         [Range(1, 5)]
+        [Display(Name = "Rate Number")]
         public int RateNumber { get; set; }
 
         public string Feedback { get; set; }
 
-        public DateTime WhenCreated { get; set; }
+        [Display(Name= "Created Time")]
+        public string WhenCreated { get; set; }
 
         public Rate()
         {
-            WhenCreated = DateTime.Now;
+            WhenCreated = DateTime.Now.ToString();
         }
     }
 }

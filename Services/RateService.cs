@@ -54,6 +54,21 @@ namespace Services
             }
             return avrg / numOfRats;
         }
+
+        public List<Rate> Search(string query)
+        {
+            if(query == null)
+            {
+                return GetAll();
+            }
+            List<Rate> result =
+            _ratings.FindAll((rate) => { return rate.Feedback.Contains(query) == true; });
+
+            //var json = JsonSerializer.Serialize(result);
+
+            return result;
+
+        }
         
         
     }
