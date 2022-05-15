@@ -6,12 +6,12 @@ using Models;
 namespace Services
 {
     //todo: in the future we ill add Repository project that will access to DB.
-    public class Chats
+    public class ChatsService
     {
         private static List<Chat> _chats = new List<Chat>();
         private int _chatsId = 0;
     
-        public Chats() { }
+        public ChatsService() { }
 
         public List<Tuple<int, User>> GetOtherUser (User user)
         {

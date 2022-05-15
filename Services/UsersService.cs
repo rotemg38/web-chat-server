@@ -5,12 +5,16 @@ using Models;
 namespace Services
 {
     //todo: in the future we ill add Repository project that will access to DB.
-    public class Users
+    public class UsersService
     {
         private static List<User> _users = new List<User>();
 
-        public Users() { }
+        public UsersService() { }
 
+        public List<User> GetAll()
+        {
+            return _users;
+        }
         public void Add(User user)
         {
             _users.Add(user);
