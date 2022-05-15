@@ -53,6 +53,11 @@ namespace Services
             User curr = _users.Find((curr) => { return curr.UserName == userName; });
             return curr.Password;
         }
+        public void RemoveUser(string userName)
+        {
+            User curr = _users.Find((curr) => { return curr.UserName == userName; });
+            _users.Remove(curr);
+        }
 
     }
 }
