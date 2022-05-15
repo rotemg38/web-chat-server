@@ -28,8 +28,6 @@ namespace AdvancedProgrammingWebAPI
         {
 
             services.AddControllers();
-            //services.AddMvc();
-            //var connection = @"Server=.\\SQLEXPRESS;Database=PleaseKhdem;Trusted_Connection=True;";
             services.AddScoped<UsersService>();
             
         }

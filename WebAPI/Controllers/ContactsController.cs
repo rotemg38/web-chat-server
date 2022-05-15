@@ -5,6 +5,8 @@ using Models;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Linq;
+using System.Net;
+using Microsoft.AspNetCore.Http;
 
 namespace WebAPI.Controllers
 {
@@ -25,16 +27,17 @@ namespace WebAPI.Controllers
         {
             List<User> users = _context.GetAll();
             return JsonSerializer.Serialize(users);
-
-
-
         }
 
-        // GET api/<ContactsController>/5
-        [HttpGet("{id}")]
+        // GET api/<ContactsController>/user1
+        [HttpGet("{userName}")]
         public string Get(string userName) // maybe id?
         { 
             User user = _context.GetAll().Find((user) => { return user.UserName == userName; });
+            if (user == null)
+            {
+                //return NotFound();
+            }
             return JsonSerializer.Serialize(user); 
         }
 
@@ -51,16 +54,22 @@ namespace WebAPI.Controllers
             _context.Add(user);
         }
 
-        // PUT api/<ContactsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // PUT api/<ContactsController>/user1
+        [HttpPut("{UserName}")]
+        public void Put(string userName, [FromBody] User user)
         {
+            User curr = _context.GetAll().Find((user) => { return user.UserName == userName; });
+            curr.UserName = user.UserName;
+            curr.Password = user.Password;
+            curr.DisplayName =  user.DisplayName;
+            curr.Image = user.Image;
         }
 
-        // DELETE api/<ContactsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        // DELETE api/<ContactsController>/user1
+        [HttpDelete("{userName}")]
+        public void Delete(string userName)
         {
+            _context.RemoveUser(userName);
         }
     }
 }
