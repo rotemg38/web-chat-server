@@ -9,11 +9,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Services;
 
 namespace AdvancedProgrammingWebAPI
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -26,6 +28,10 @@ namespace AdvancedProgrammingWebAPI
         {
 
             services.AddControllers();
+            //services.AddMvc();
+            //var connection = @"Server=.\\SQLEXPRESS;Database=PleaseKhdem;Trusted_Connection=True;";
+            services.AddScoped<UsersService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,5 +51,6 @@ namespace AdvancedProgrammingWebAPI
                 endpoints.MapControllers();
             });
         }
+
     }
 }

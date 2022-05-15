@@ -5,11 +5,11 @@ using Models;
 namespace Services
 {
     //todo: in the future we ill add Repository project that will access to DB.
-    public class MsgInChat
+    public class MsgInChatService
     {
-        private static List<MsgInChat> _msgInChatsList = new List<MsgInChat>();
+        private static List<MsgInChatService> _msgInChatsList = new List<MsgInChatService>();
 
-        public MsgInChat() { }
+        public MsgInChatService() { }
 
         
 

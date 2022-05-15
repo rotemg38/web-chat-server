@@ -5,12 +5,12 @@ using Models;
 namespace Services
 {
     //todo: in the future we ill add Repository project that will access to DB.
-    public class Messages
+    public class MessagesService
     {
         private static List<Message> _msgs = new List<Message>();
         private int _msgId = 0;
 
-        public Messages() { }
+        public MessagesService() { }
 
         public int GenerateMsgId()
         {
