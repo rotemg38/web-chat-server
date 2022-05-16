@@ -32,8 +32,8 @@ namespace WebAPI.Controllers
         // GET api/<ContactsController>/user1
         [HttpGet("{userName}")]
         public string Get(string userName) // maybe id?
-        { 
-            User user = _context.GetAll().Find((user) => { return user.UserName == userName; });
+        {
+            User user = _context.GetAll().Find(x => x.UserName == userName);
             if (user == null)
             {
                 //return NotFound();
@@ -58,7 +58,11 @@ namespace WebAPI.Controllers
         [HttpPut("{UserName}")]
         public void Put(string userName, [FromBody] User user)
         {
-            User curr = _context.GetAll().Find((user) => { return user.UserName == userName; });
+            User curr = _context.GetAll().Find((curr) => { return curr.UserName == userName; });
+            if (curr == null)
+            {
+                return;
+            }
             curr.UserName = user.UserName;
             curr.Password = user.Password;
             curr.DisplayName =  user.DisplayName;
