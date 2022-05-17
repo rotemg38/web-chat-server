@@ -31,7 +31,7 @@ namespace WebAPI.Controllers
 
         // GET api/<ContactsController>/user1
         [HttpGet("{userName}")]
-        public string Get(string userName) // maybe id?
+        public string Get(string userName)
         {
             User user = _context.GetAll().Find(x => x.UserName == userName);
             if (user == null)
@@ -45,7 +45,7 @@ namespace WebAPI.Controllers
         [HttpPost]
         public void Post([FromBody] User user) // [Bind("UserName", "DisplayName", "Password", "Image")]?
         {
-            User curr = _context.GetAll().Find((user) => { return user.UserName == user.UserName; });
+            User curr = _context.GetAll().Find((curr) => { return curr.UserName == user.UserName; });
             if(curr != null)
             {
                 //throw new HttpResponseException(HttpStatusCode.BadRequest);
@@ -55,10 +55,10 @@ namespace WebAPI.Controllers
         }
 
         // PUT api/<ContactsController>/user1
-        [HttpPut("{UserName}")]
+        [HttpPut("{userName}")]
         public void Put(string userName, [FromBody] User user)
         {
-            User curr = _context.GetAll().Find((curr) => { return curr.UserName == userName; });
+            User curr = _context.GetAll().Find(x => x.UserName == userName);
             if (curr == null)
             {
                 return;
