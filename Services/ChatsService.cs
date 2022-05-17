@@ -38,6 +38,24 @@ namespace Services
             return _chatsId;
         }
 
+        //todo: check if needed?
+        public List<Chat> GetChatsByUsername(string username)
+        {
+            List<Chat> chats = new List<Chat>();
+            foreach (Chat chat in _chats)
+            {
+                if (chat.Participants.Item1.UserName == username)
+                {
+                    chats.Add(chat);
+                }
+                else if (chat.Participants.Item2.UserName == username)
+                {
+                    chats.Add(chat);
+                }
+            }
+            return chats;
+        }
+
         public List<Tuple<int, User>> GetOtherUser (User user)
         {
             List< Tuple < int,User >> chatIdAndUser = new List<Tuple<int, User>>();

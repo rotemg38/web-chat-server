@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using Models;
 
@@ -9,7 +10,7 @@ namespace Services
     {
         private static List<Message> _msgs = new List<Message>
         {
-            new Message() { Id = 1, Type = "text", Text = "content", Date = "10.10.10", MediaSrc = "uri" }
+            new Message(1, "content", "10.10.10", true)
         };
         private static int _msgId = 1;
         
@@ -25,6 +26,13 @@ namespace Services
             return _msgId;
         }
 
+        public Message AddMsg(string content, bool sent)
+        {
+            var msg = new Message(GenerateMsgId(), content, DateTime.Now.ToString(), sent);
+            _msgs.Add(msg);
+            return msg;
+        }
+
         public int AddMsg(Message msg)
         {
             int id = GenerateMsgId();
@@ -33,20 +41,46 @@ namespace Services
             return id;
         }
 
+        /// <summary>
+        /// This function find the message with the given id
+        /// </summary>
+        /// <param name="id">message id</param>
+        /// <returns>The message if found, otherwise null</returns>
         public Message GetMsgById(int id)
         {
             return _msgs.Find((msg) => { return msg.Id == id; });
         }
-        
-        public void DeleteMsg(int id)
+
+        /// <summary>
+        /// This function delete a message with the given id
+        /// </summary>
+        /// <param name="id">message id</param>
+        /// <returns>true for success and false for failur</returns>
+        public bool DeleteMsg(int id)
         {
-            _msgs.Remove(GetMsgById(id));
+            var msg = GetMsgById(id);
+            if (msg != null)
+            {
+                _msgs.Remove(msg);
+                return true;
+            }
+            return false;
         }
 
-        public void UpdateMsg(Message msg)
+        /// <summary>
+        /// This function updates the content of the given message
+        /// </summary>
+        /// <param name="content"> the new content</param>
+        /// <param name="idMsg"> the msg we want to update</param>
+        /// <returns>true for success and false for failur</returns>
+        public bool UpdateMsg(int idMsg, string content)
         {
-            _msgs.Remove(GetMsgById(msg.Id));
-            _msgs.Add(msg);
+            var oldMsg = GetMsgById(idMsg);
+            if (oldMsg != null) {
+                oldMsg.Content = content;
+                return true;
+            }
+            return false;
         }
 
 
