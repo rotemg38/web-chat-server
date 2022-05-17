@@ -1,11 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace Models
 {
     public class MsgInChat
     {
-        public string Id { get; set; }
-        public Message Message { get; set; }
-        public User from { get; set; }
-        public User to { get; set; }
+        public MsgInChat(Chat chat, MsgUsers msgUsers)
+        {
+            Chat = chat;
+            Messages = new List<MsgUsers>{msgUsers};
+        }
+        public MsgInChat(Chat chat, List<MsgUsers> msgs)
+        {
+            Chat = chat;
+            Messages = msgs;
+        }
+        public Chat Chat { get; set; }
+        public List<MsgUsers> Messages { get; set; }
     }
 }
