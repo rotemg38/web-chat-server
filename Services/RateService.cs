@@ -64,12 +64,7 @@ namespace Services
             List<Rate> result =
             _ratings.FindAll((rate) => { return rate.Feedback.Contains(query) == true; });
 
-            //var json = JsonSerializer.Serialize(result);
-
             return result;
-
         }
-        
-        
     }
 }
