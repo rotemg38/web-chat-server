@@ -8,6 +8,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<UsersService>();
+builder.Services.AddScoped<ChatsService>();
+builder.Services.AddScoped<MessagesService>();
+builder.Services.AddScoped<MsgInChatService>();
 
 var app = builder.Build();
 

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/contacts")]
     [ApiController]
     public class ContactsController : ControllerBase
     {
