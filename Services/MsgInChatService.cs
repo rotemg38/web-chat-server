@@ -20,7 +20,7 @@ namespace Services
                                                         )
                 },
                 new List<MsgUsers> { new MsgUsers(
-                                                new Message() { Id = 1, Type = "text", Text = "content", Date = "10.10.10", MediaSrc = "uri" },
+                                                new Message(1, "content", "10.10.10", true),
                                                 new User { UserName = "shir", DisplayName = "Shir", Password = "Shir1998", Image = "default_picture.jpg" } ,
                                                 new User { UserName = "dwayne johnson", DisplayName = "The Rock", Password = "Strong9", Image = "https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg" }
                                                   )
@@ -43,6 +43,16 @@ namespace Services
                 return msgInChat.Messages;
             }
             return null;
+        }
+
+        public List<Message> ExtractMessages(List<MsgUsers> msgsUsers)
+        {
+            List<Message> lstMsgs = new List<Message>();
+            foreach (MsgUsers  msgUser in msgsUsers)
+            {
+                lstMsgs.Add(msgUser.Message);
+            }
+            return lstMsgs;
         }
 
         public List<MsgUsers> GetAllMessages(List<Chat> chats)
@@ -121,7 +131,7 @@ namespace Services
         }
 
         //from the list of chats- delete the message
-        public void DeleteMsg(List<Chat> chats, int idMsg)
+        public bool DeleteMsg(List<Chat> chats, int idMsg)
         {
             //go through all given chats
             foreach(Chat chat in chats)
@@ -131,10 +141,41 @@ namespace Services
                 if (msgsUsers != null)
                 {
                     msgsUsers.Remove(GetMsg(msgsUsers, idMsg));
+                    return true;
                 }
             }
-            
+
+            return false;
         }
 
+        //check if the given username sent the message
+        public bool IsSender(string userName, int idMsg)
+        {
+            foreach(MsgInChat msgInChat in _msgInChatsList)
+            {
+                //msgInChat.Chat
+                List<MsgUsers> msgsUsers = FindAllMsgs(msgInChat.Chat, idMsg);
+                MsgUsers msgUsers = GetMsg(msgsUsers, idMsg);
+                if(msgUsers != null)
+                {
+                    return msgUsers.From.UserName == userName;
+                }
+            }
+
+            return false;
+        }
+
+        public List<Message> GetCopyWithFixedSent(string userName, List<Message> msgs)
+        {
+            List<Message> fixedMsgs = new List<Message>();
+            foreach (var msg in msgs)
+            {
+                Message fixedMsg = new Message(msg);
+                fixedMsg.Sent = IsSender(userName, msg.Id);
+                fixedMsgs.Add(fixedMsg);
+            }
+
+            return fixedMsgs;
+        }
     }
 }
