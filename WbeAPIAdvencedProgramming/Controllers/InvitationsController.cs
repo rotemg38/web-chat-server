@@ -7,98 +7,39 @@ namespace WbeAPIAdvencedProgramming.Controllers
 {
     public class InvitationsController : Controller
     {
-        private readonly ChatsService _context;
+        private readonly ChatsService _chatContext;
+        private readonly UsersService _userContext;
 
-        public InvitationsController(ChatsService context)
+        public InvitationsController(ChatsService chatContext, UsersService userContext)
         {
-            _context = context;
+            _chatContext = chatContext;
+            _userContext = userContext;
         }
 
 
+
+        
         [HttpPost]
         [Route("invitations")]
-        public ActionResult Invitations([FromBody] Chat chatInfo) 
+        public void Invitations([FromBody] string from, [FromBody] string to, [FromBody] string server) // todo: we need to check if useres exists?
         {
-           if (_context.AddConction(chatInfo.Participants.Item1, chatInfo.Participants.Item2) == -1)
+            // check if invitaion is from another server user. if so - we need to add it to our list.
+            // if user "from" is exists (not null) then the "to" user is from another server, and the oppsite.
+            if (server != "localhostShirRotem" && _userContext.GetUserByUsername(from) != null)
             {
-                return NotFound();
-            }
-           return View(chatInfo); ///????
-        }
-
-        // GET: InvitaionsController
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        // GET: InvitaionsController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: InvitaionsController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: InvitaionsController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
+                _userContext.Add(new Models.User {id = to , server = server });
+            } else if(server != "localhostShirRotem" && _userContext.GetUserByUsername(to) != null)
             {
-                return RedirectToAction(nameof(Index));
+                _userContext.Add(new Models.User { id = from, server = server });
             }
-            catch
+            else if (_userContext.GetUserByUsername(from) == null && _userContext.GetUserByUsername(to) == null)
             {
-                return View();
+                return; //// ? not found
             }
+           Chat chat =  _chatContext.AddChat(new Models.User { id = from}, new Models.User { id= to});
         }
 
-        // GET: InvitaionsController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+        
 
-        // POST: InvitaionsController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: InvitaionsController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: InvitaionsController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

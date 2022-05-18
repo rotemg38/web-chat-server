@@ -33,7 +33,7 @@ namespace WebAPI.Controllers
         [HttpGet("{userName}")]
         public string Get(string userName)
         {
-            User user = _context.GetAll().Find(x => x.UserName == userName);
+            User user = _context.GetAll().Find(x => x.id == userName);
             if (user == null)
             {
                 //return NotFound();
@@ -43,9 +43,11 @@ namespace WebAPI.Controllers
 
         // POST api/<ContactsController>
         [HttpPost]
-        public void Post([FromBody] User user) // [Bind("UserName", "DisplayName", "Password", "Image")]?
+        public void Post([FromBody] User user) // [Bind("id", "name", "Password", "Image")]?
         {
-            User curr = _context.GetAll().Find((curr) => { return curr.UserName == user.UserName; });
+            User curr = _context.GetAll().Find((curr) => { return curr.id == user.id; });
+            curr.last = null;
+            curr.lastdate = null;
             if(curr != null)
             {
                 //throw new HttpResponseException(HttpStatusCode.BadRequest);
@@ -54,19 +56,22 @@ namespace WebAPI.Controllers
             _context.Add(user);
         }
 
-        // PUT api/<ContactsController>/user1
+        // PUT api/<ContactsController>/user1 //todo: fix the last and last msg
         [HttpPut("{userName}")]
         public void Put(string userName, [FromBody] User user)
         {
-            User curr = _context.GetAll().Find(x => x.UserName == userName);
+            User curr = _context.GetAll().Find(x => x.id == userName);
             if (curr == null)
             {
                 return;
             }
-            curr.UserName = user.UserName;
+            curr.id = user.id;
             curr.Password = user.Password;
-            curr.DisplayName =  user.DisplayName;
+            curr.name =  user.name;
             curr.Image = user.Image;
+            Message message = _context.GetLastMsg(userName);
+            curr.last = message.Text;
+            curr.lastdate = message.Date;
         }
 
         // DELETE api/<ContactsController>/user1

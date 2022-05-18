@@ -66,8 +66,8 @@ namespace WbeAPIAdvencedProgramming.Controllers
             _contextMsg.DeleteMsg(idMsg);
         }
 
-        // POST api/Contacts/:userName/Messages/:currentUser
-        [HttpPost("{currentUserName}")]
+        // POST api/Contacts/:userName/Messages/:currentUser 
+        [HttpPost("{currentUserName}")] 
         //create new msg between users- current send to userName
         public void Post(string userName, string currentUserName, [FromBody] Message msg)
         {
