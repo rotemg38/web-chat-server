@@ -100,6 +100,13 @@ namespace WbeAPIAdvencedProgramming.Controllers
         //create new msg between users- currentUserName send to userName
         public IActionResult Post(string userName, string currentUserName, [FromBody] TmpMsg content)
         {
+            if (HttpContext.Session.GetString("username") == null)
+            {
+                //todo: maybe redireect signin
+                return NotFound();
+            }
+            
+
             User userTo = _contextUsers.GetUserByUsername(userName);
             User userFrom = _contextUsers.GetUserByUsername(currentUserName);
             if (userFrom == null || userTo == null)

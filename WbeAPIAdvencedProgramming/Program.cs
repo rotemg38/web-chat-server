@@ -12,6 +12,22 @@ builder.Services.AddScoped<ChatsService>();
 builder.Services.AddScoped<MessagesService>();
 builder.Services.AddScoped<MsgInChatService>();
 
+builder.Services.AddSession(options => {
+    options.IdleTimeout = TimeSpan.FromHours(24);
+});
+
+builder.Services.AddHttpContextAccessor();
+
+/*builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "",
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:5000").WithMethods("PUT", "DELETE","GET");
+                          
+                      });
+});*/
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -24,6 +40,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapControllers();
 
