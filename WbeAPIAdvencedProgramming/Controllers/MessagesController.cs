@@ -95,6 +95,7 @@ namespace WbeAPIAdvencedProgramming.Controllers
             return NoContent();
         }
 
+
         // POST api/Contacts/:userName/Messages/:currentUser
         [HttpPost("{currentUserName}")]
         //create new msg between users- currentUserName send to userName
