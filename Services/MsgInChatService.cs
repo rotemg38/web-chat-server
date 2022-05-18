@@ -20,7 +20,7 @@ namespace Services
                                                         )
                 },
                 new List<MsgUsers> { new MsgUsers(
-                                                new Message() { Id = 1, Type = "text", Text = "content", Date = "10.10.10", MediaSrc = "uri" },
+                                                new Message(  1,   "content",  "10.10.10", true ),
                                                 new User { id = "shir", name = "Shir", Password = "Shir1998", Image = "default_picture.jpg" } ,
                                                 new User { id = "dwayne johnson", name = "The Rock", Password = "Strong9", Image = "https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg" }
 
@@ -159,7 +159,7 @@ namespace Services
                 MsgUsers msgUsers = GetMsg(msgsUsers, idMsg);
                 if(msgUsers != null)
                 {
-                    return msgUsers.From.UserName == userName;
+                    return msgUsers.From.id == userName;
                 }
             }
 

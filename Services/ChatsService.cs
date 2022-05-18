@@ -42,11 +42,11 @@ namespace Services
             List<Chat> chats = new List<Chat>();
             foreach (Chat chat in _chats)
             {
-                if (chat.Participants.Item1.UserName == username)
+                if (chat.Participants.Item1.id == username)
                 {
                     chats.Add(chat);
                 }
-                else if (chat.Participants.Item2.UserName == username)
+                else if (chat.Participants.Item2.id == username)
                 {
                     chats.Add(chat);
                 }

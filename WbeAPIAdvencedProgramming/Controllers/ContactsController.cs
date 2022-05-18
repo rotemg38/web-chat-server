@@ -70,8 +70,8 @@ namespace WebAPI.Controllers
             curr.name =  user.name;
             curr.Image = user.Image;
             Message message = _context.GetLastMsg(userName);
-            curr.last = message.Text;
-            curr.lastdate = message.Date;
+            curr.last = message.Content;
+            curr.lastdate = message.Created;
         }
 
         // DELETE api/<ContactsController>/user1

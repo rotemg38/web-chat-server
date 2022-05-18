@@ -26,7 +26,7 @@ namespace WbeAPIAdvencedProgramming.Controllers
         
         public void PostLogin([FromBody]User user)
         {
-            HttpContext.Session.SetString("username", user.UserName);
+            HttpContext.Session.SetString("username", user.id);
             
         }
 
@@ -36,7 +36,7 @@ namespace WbeAPIAdvencedProgramming.Controllers
         public void PostRegister([FromBody] User user)
         {
             _context.Add(user);
-            HttpContext.Session.SetString("username", user.UserName);
+            HttpContext.Session.SetString("username", user.id);
         }
 
     }
