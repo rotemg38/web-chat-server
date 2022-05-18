@@ -1,4 +1,6 @@
 using Services;
+using Microsoft.AspNetCore.Session;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,21 +14,26 @@ builder.Services.AddScoped<ChatsService>();
 builder.Services.AddScoped<MessagesService>();
 builder.Services.AddScoped<MsgInChatService>();
 
+
+builder.Services.AddDistributedMemoryCache();
+
 builder.Services.AddSession(options => {
     options.IdleTimeout = TimeSpan.FromHours(24);
 });
 
-builder.Services.AddHttpContextAccessor();
 
-/*builder.Services.AddCors(options =>
+builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: "",
+    options.AddPolicy(name: "myAllowSpecificOrigins",
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:5000").WithMethods("PUT", "DELETE","GET");
-                          
+                          policy.WithOrigins("http://localhost:3000")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials();
+
                       });
-});*/
+});
 
 var app = builder.Build();
 
@@ -40,6 +47,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCors("myAllowSpecificOrigins");
 
 app.UseSession();
 

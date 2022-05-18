@@ -21,7 +21,7 @@ namespace Models
         
         public string last { get; set; }
         public string lastdate { get; set; }
-        public string server = "localhostShirRotem";
+        public string server = "localhost:5000";
 
     }
 }
