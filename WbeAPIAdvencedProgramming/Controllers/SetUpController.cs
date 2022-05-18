@@ -23,20 +23,28 @@ namespace WbeAPIAdvencedProgramming.Controllers
 
         // POST api/SetUP/LogIn
         [HttpPost("login")]
-        
-        public void PostLogin([FromBody]User user)
+        public IActionResult PostLogin([FromBody]User user)
         {
+            if (user == null)
+            {
+                return NotFound();
+            }
             HttpContext.Session.SetString("username", user.id);
-            
+            return Ok();
+
         }
 
         // POST api/SetUP/Register
         [HttpPost("register")]
-        
-        public void PostRegister([FromBody] User user)
+        public IActionResult PostRegister([FromBody] User user)
         {
+            if(user == null)
+            {
+                return NotFound();
+            }
             _context.Add(user);
             HttpContext.Session.SetString("username", user.id);
+            return Ok();
         }
 
     }
