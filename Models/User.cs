@@ -7,17 +7,21 @@ namespace Models
     {
         //todo define the DataAnnotations
 
-        //[Required]//unique this is key
-        public string UserName { get; set; }
+        [Required]//unique this is key-> username
+        public string id { get; set; }
 
         //[Required]
-        public string DisplayName { get; set; }
+        public string name { get; set; }
         
         //[Required]
         //[RegularExpression("")]
         public string Password { get; set; }
 
         public string Image { get; set; }
+        
+        public string last { get; set; }
+        public string lastdate { get; set; }
+        public string server = "localhostShirRotem";
 
     }
 }

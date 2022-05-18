@@ -15,14 +15,15 @@ namespace Services
                 {
                     ChatId = 1,
                     Participants = new Tuple<User, User>(
-                                            new User { UserName = "shir", DisplayName = "Shir", Password = "Shir1998", Image = "default_picture.jpg" },
-                                            new User { UserName = "dwayne johnson", DisplayName = "The Rock", Password = "Strong9", Image = "https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg" }
+                                            new User { id = "shir", name = "Shir", Password = "Shir1998", Image = "default_picture.jpg" },
+                                            new User { id = "dwayne johnson", name = "The Rock", Password = "Strong9", Image = "https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg" }
                                                         )
                 },
                 new List<MsgUsers> { new MsgUsers(
-                                                new Message(1, "content", "10.10.10", true),
-                                                new User { UserName = "shir", DisplayName = "Shir", Password = "Shir1998", Image = "default_picture.jpg" } ,
-                                                new User { UserName = "dwayne johnson", DisplayName = "The Rock", Password = "Strong9", Image = "https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg" }
+                                                new Message() { Id = 1, Type = "text", Text = "content", Date = "10.10.10", MediaSrc = "uri" },
+                                                new User { id = "shir", name = "Shir", Password = "Shir1998", Image = "default_picture.jpg" } ,
+                                                new User { id = "dwayne johnson", name = "The Rock", Password = "Strong9", Image = "https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg" }
+
                                                   )
                                     }
                 )
