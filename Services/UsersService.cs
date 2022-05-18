@@ -103,13 +103,13 @@ namespace Services
                 }
             }
             string date = "0000-00-00 00:00";
-            Message finalMsg = new Message();
+            Message finalMsg = new Message(0, "", "", true);
             foreach (MsgUsers msg in messages)
             {
-                if (String.Compare(msg.Message.Date, date) > 0) // the left string is bigger (i think-nedd to check)
+                if (String.Compare(msg.Message.Created, date) > 0) // the left string is bigger (i think-nedd to check)
                 //if (msg.Message.Date > date)
                 {
-                    date = msg.Message.Date;
+                    date = msg.Message.Created;
                     finalMsg = msg.Message;
                 }
             }
