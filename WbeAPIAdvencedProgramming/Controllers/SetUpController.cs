@@ -21,7 +21,7 @@ namespace WbeAPIAdvencedProgramming.Controllers
             _context = context;
         }
 
-        // POST api/SetUP/LogIn
+        // POST api/setup/login
         [HttpPost("login")]
         public IActionResult PostLogin([FromBody]User user)
         {
@@ -34,7 +34,7 @@ namespace WbeAPIAdvencedProgramming.Controllers
 
         }
 
-        // POST api/SetUP/Register
+        // POST api/setup/register
         [HttpPost("register")]
         public IActionResult PostRegister([FromBody] User user)
         {
@@ -42,8 +42,9 @@ namespace WbeAPIAdvencedProgramming.Controllers
             {
                 return NotFound();
             }
-            _context.Add(user);
+            
             HttpContext.Session.SetString("username", user.id);
+            _context.Add(user);
             return Ok();
         }
 

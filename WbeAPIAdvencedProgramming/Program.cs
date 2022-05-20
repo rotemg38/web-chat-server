@@ -19,6 +19,8 @@ builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSession(options => {
     options.IdleTimeout = TimeSpan.FromHours(24);
+    //to save session between conrollers
+    //options.Cookie.IsEssential = true;
 });
 
 
