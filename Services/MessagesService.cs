@@ -42,9 +42,9 @@ namespace Services
         }
 
         /// <summary>
-        /// This function find the message with the given id
+        /// This function find the message with the given Id
         /// </summary>
-        /// <param name="id">message id</param>
+        /// <param Name="id">message Id</param>
         /// <returns>The message if found, otherwise null</returns>
         public Message GetMsgById(int id)
         {
@@ -52,9 +52,9 @@ namespace Services
         }
 
         /// <summary>
-        /// This function delete a message with the given id
+        /// This function delete a message with the given Id
         /// </summary>
-        /// <param name="id">message id</param>
+        /// <param Name="id">message Id</param>
         /// <returns>true for success and false for failur</returns>
         public bool DeleteMsg(int id)
         {
@@ -70,8 +70,8 @@ namespace Services
         /// <summary>
         /// This function updates the content of the given message
         /// </summary>
-        /// <param name="content"> the new content</param>
-        /// <param name="idMsg"> the msg we want to update</param>
+        /// <param Name="content"> the new content</param>
+        /// <param Name="idMsg"> the msg we want to update</param>
         /// <returns>true for success and false for failur</returns>
         public bool UpdateMsg(int idMsg, string content)
         {

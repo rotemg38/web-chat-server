@@ -14,21 +14,21 @@ namespace Services
         private static List<User> _users = new List<User>
         {
             new User
-            { id = "rihanna", name = "Rihanna", Password = "SingWithMe8", Image = "https://pbs.twimg.com/profile_images/1133109643734130688/BwioAwkz.jpg" }
+            ("rihanna", "Rihanna", "SingWithMe8", "https://pbs.twimg.com/profile_images/1133109643734130688/BwioAwkz.jpg", "localhost:5000")
             ,new User
-            { id = "elon", name= "Elon Musk", Password= "ImRich10", Image= "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTc5OTk2ODUyMTMxNzM0ODcy/gettyimages-1229892983-square.jpg" }
+            ("elon", "Elon Musk", "ImRich10", "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTc5OTk2ODUyMTMxNzM0ODcy/gettyimages-1229892983-square.jpg", "localhost:5000")
             ,new User
-            { id = "ryan", name = "Ryan Reynolds", Password = "FunnyMe5", Image = "https://pbs.twimg.com/profile_images/1299844050208555008/7wMQaJRA_400x400.jpg" }
+            ("ryan", "Ryan Reynolds", "FunnyMe5", "https://pbs.twimg.com/profile_images/1299844050208555008/7wMQaJRA_400x400.jpg", "localhost:5000")
             ,new User
-            { id = "shir", name = "Shir", Password = "Shir1998", Image = "default_picture.jpg" }
+            ("shir", "Shir", "Shir1998", "default_picture.jpg", "localhost:5000")
             ,new User
-            { id = "rotem", name = "Rotem", Password = "Rotem100", Image = "default_picture.jpg" }
+            ("rotem", "Rotem", "Rotem100", "default_picture.jpg","localhost:5000")
             ,new User
-            { id = "dwayne johnson", name = "The Rock", Password = "Strong9", Image = "https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg" }
+            ("dwayne johnson", "The Rock", "Strong9", "https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg", "localhost:5000")
             ,new User
-            { id = "michael", name = "Michael Jackson", Password = "TheKIng3", Image = "https://geo-media.beatport.com/image_size/590x404/080c6217-0efa-4323-8b7e-2ad3546a1def.jpg" }
+            ("michael", "Michael Jackson", "TheKIng3", "https://geo-media.beatport.com/image_size/590x404/080c6217-0efa-4323-8b7e-2ad3546a1def.jpg", "localhost:5000")
             ,new User
-            { id = "obama", name = "Barak Obama", Password = "Prsident7", Image = "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTE4MDAzNDEwNzg5ODI4MTEw/barack-obama-12782369-1-402.jpg" }
+            ("obama", "Barak Obama", "Prsident7", "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTE4MDAzNDEwNzg5ODI4MTEw/barack-obama-12782369-1-402.jpg", "localhost:5000")
 
         };
 
@@ -68,7 +68,7 @@ namespace Services
         public string GetDisNameByUsername(string userName)
         {
             User curr = GetUserByUsername(userName);
-            return curr.name;
+            return curr.Name;
         }
         
         public string GetUserPassword(string userName)
@@ -84,7 +84,7 @@ namespace Services
 
         public User GetUserByUsername(string userName)
         {
-            return _users.Find((curr) => { return curr.id == userName; });
+            return _users.Find((curr) => { return curr.Id == userName; });
         }
 
         public Message GetLastMsg(string userName)

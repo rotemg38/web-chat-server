@@ -5,6 +5,12 @@ using Models;
 
 namespace WbeAPIAdvencedProgramming.Controllers
 {
+    public class InvitaionApi
+    {
+        public string from { get; set; }
+        public string to { get; set; }
+        public string server { get; set; }
+    }
     public class InvitationsController : Controller
     {
         private readonly ChatsService _chatContext;
@@ -16,27 +22,30 @@ namespace WbeAPIAdvencedProgramming.Controllers
             _userContext = userContext;
         }
 
-
-
-        
+        /* create an invitain (new chat) between 2 users */
         [HttpPost]
         [Route("invitations")]
-        public void Invitations([FromBody] string from, [FromBody] string to, [FromBody] string server) // todo: we need to check if useres exists?
+        public ActionResult Invitations([FromBody] InvitaionApi invitaion) // todo: we need to check if useres exists?
         {
-            // check if invitaion is from another server user. if so - we need to add it to our list.
-            // if user "from" is exists (not null) then the "to" user is from another server, and the oppsite.
-            if (server != "localhostShirRotem" && _userContext.GetUserByUsername(from) != null)
+            // check if invitaion is from another Server user. if so - we need to add it to our list.
+            // if user "from" is exists (not null) then the "to" user is from another Server, and the oppsite.
+            if (invitaion.server != "localhost: 5000" && _userContext.GetUserByUsername(invitaion.from) != null)
             {
-                _userContext.Add(new Models.User {id = to , server = server });
-            } else if(server != "localhostShirRotem" && _userContext.GetUserByUsername(to) != null)
+                User newUser = new User(invitaion.to, "", invitaion.server);
+                _userContext.Add(newUser);
+                _chatContext.AddChat(newUser, _userContext.GetUserByUsername(invitaion.from));
+                
+            } else if(invitaion.server != "localhost: 5000" && _userContext.GetUserByUsername(invitaion.to) != null)
             {
-                _userContext.Add(new Models.User { id = from, server = server });
+                User newUser = new User(invitaion.from, "", invitaion.server);
+                _userContext.Add(newUser);
+                _chatContext.AddChat(newUser, _userContext.GetUserByUsername(invitaion.to));
             }
-            else if (_userContext.GetUserByUsername(from) == null && _userContext.GetUserByUsername(to) == null)
+            else if (_userContext.GetUserByUsername(invitaion.from) == null && _userContext.GetUserByUsername(invitaion.to) == null)
             {
-                return; //// ? not found
+                return NotFound();
             }
-           Chat chat =  _chatContext.AddChat(new Models.User { id = from}, new Models.User { id= to});
+            return Ok();
         }
 
         

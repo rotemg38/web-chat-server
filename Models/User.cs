@@ -8,20 +8,41 @@ namespace Models
         //todo define the DataAnnotations
 
         [Required]//unique this is key-> username
-        public string id { get; set; }
+        public string Id { get; set; }
 
         //[Required]
-        public string name { get; set; }
+        public string Name { get; set; }
         
-        //[Required]
-        //[RegularExpression("")]
         public string Password { get; set; }
 
         public string Image { get; set; }
         
         public string last { get; set; }
         public string lastdate { get; set; }
-        public string server = "localhost:5000";
+        public string Server = "localhost:5000";
+
+        public User(string id, string name, string server)
+        {
+            Id = id;
+            Name = name;
+            Server = server;
+            Password = null;
+            Image = null;
+            last = null;
+            lastdate = null;
+
+        }
+
+        public User(string id, string name, string password, string image, string server)
+        {
+            Id=id;
+            Name = name;
+            Password = password;
+            Image = image;  
+            Server = server;
+            last = null;
+            lastdate = null;
+        }
 
     }
 }

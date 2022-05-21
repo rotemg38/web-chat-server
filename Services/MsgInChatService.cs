@@ -15,14 +15,14 @@ namespace Services
                 {
                     ChatId = 1,
                     Participants = new Tuple<User, User>(
-                                            new User { id = "shir", name = "Shir", Password = "Shir1998", Image = "default_picture.jpg" },
-                                            new User { id = "dwayne johnson", name = "The Rock", Password = "Strong9", Image = "https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg" }
+                                            new User("shir", "Shir", "Shir1998", "default_picture.jpg", "localhost:5000"),
+                                            new User("dwayne johnson", "The Rock", "Strong9", "https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg", "localhost:5000")
                                                         )
                 },
                 new List<MsgUsers> { new MsgUsers(
                                                 new Message(  1,   "content",  "10.10.10", true ),
-                                                new User { id = "shir", name = "Shir", Password = "Shir1998", Image = "default_picture.jpg" } ,
-                                                new User { id = "dwayne johnson", name = "The Rock", Password = "Strong9", Image = "https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg" }
+                                                new User("shir", "Shir", "Shir1998", "default_picture.jpg", "localhost:5000") ,
+                                                new User("dwayne johnson", "The Rock", "Strong9", "https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg", "localhost:5000")
 
                                                   )
                                     }
@@ -100,7 +100,7 @@ namespace Services
         }
 
 
-        //get the message from the given list by id
+        //get the message from the given list by Id
         public MsgUsers GetMsg(List<MsgUsers> msgsUsers, int idMsg)
         {
             if (msgsUsers != null)
@@ -113,11 +113,11 @@ namespace Services
             return null;
         }
 
-        //get list of messages of specific chat that contain the message with the given id
+        //get list of messages of specific chat that contain the message with the given Id
         public List<MsgUsers> FindAllMsgs(Chat chat, int idMsg)
         {
             List<MsgUsers> msgsUsers = GetMessagesInChat(chat);
-            //find the message in the chat by the given id
+            //find the message in the chat by the given Id
             MsgUsers msg = GetMsg(msgsUsers, idMsg);
 
             if (msg != null)
@@ -159,7 +159,7 @@ namespace Services
                 MsgUsers msgUsers = GetMsg(msgsUsers, idMsg);
                 if(msgUsers != null)
                 {
-                    return msgUsers.From.id == userName;
+                    return msgUsers.From.Id == userName;
                 }
             }
 
