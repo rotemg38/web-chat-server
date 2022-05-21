@@ -1,84 +1,119 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using Services;
 using Models;
+using Services;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Linq;
-using System.Net;
-using Microsoft.AspNetCore.Http;
 
 namespace WebAPI.Controllers
 {
+    public class UserForApi
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+        public string server { get; set; }
+    }
+    public class UserForPUTApi
+    {
+        public string name { get; set; }
+        public string server { get; set; }
+    }
+
     [Route("api/contacts")]
     [ApiController]
     public class ContactsController : ControllerBase
     {
-        private readonly UsersService _context;
+        private readonly UsersService _userContext;
+        private readonly ChatsService _chatsContxt;
 
-        public ContactsController (UsersService context)
+        public ContactsController (UsersService userContext, ChatsService chatContext)
         {
-            _context = context;
+            _userContext = userContext;
+            _chatsContxt = chatContext;
         }
 
+        /* return all contacts of coneected user */
         // GET: api/<ContactsController>
-        [HttpGet]
-        public string Get()
+        [HttpGet] 
+        public string Get() // todo: need to be checked
         {
-            List<User> users = _context.GetAll();
-            return JsonSerializer.Serialize(users);
+            List<User> usersList = new List<User> ();
+            string username = HttpContext.Session.GetString("username");
+            User connectedUser = _userContext.GetUserByUsername(username);
+            List<Tuple<int, User>> chatsANdUsers = _chatsContxt.GetOtherUsers(connectedUser);
+            foreach(Tuple<int, User> user in chatsANdUsers)
+            {
+                usersList.Add(user.Item2);
+            }
+            return JsonSerializer.Serialize(usersList);
         }
 
+        /* return the details of the user with the Id "userName" */
         // GET api/<ContactsController>/user1
         [HttpGet("{userName}")]
-        public string Get(string userName)
+        public ActionResult Get(string userName)
         {
-            User user = _context.GetAll().Find(x => x.id == userName);
+            User emptyUser = new User("", "", "");
+            //User user = _userContext.GetAll().Find(x => x.Id == userName);
+            User user = _userContext.GetUserByUsername(userName);
             if (user == null)
             {
+                //return null;
                 //return NotFound();
+                return Content(JsonSerializer.Serialize(emptyUser));
             }
-            return JsonSerializer.Serialize(user); 
+            //return JsonSerializer.Serialize(user); 
+            return Content(JsonSerializer.Serialize(user));
         }
 
+        /* create new contact to connected user - add new connection between them (empty) */ 
         // POST api/<ContactsController>
         [HttpPost]
-        public void Post([FromBody] User user) // [Bind("id", "name", "Password", "Image")]?
+        public ActionResult Post([FromBody] UserForApi user) 
         {
-            User curr = _context.GetAll().Find((curr) => { return curr.id == user.id; });
-            curr.last = null;
-            curr.lastdate = null;
-            if(curr != null)
+            //User curr = new User(user.id, user.name, user.server);
+            User curr = _userContext.GetUserByUsername(user.id);
+            if(curr == null)
             {
-                //throw new HttpResponseException(HttpStatusCode.BadRequest);
-                return; // need to be error
+                return NotFound();
             }
-            _context.Add(user);
-        }
 
-        // PUT api/<ContactsController>/user1 //todo: fix the last and last msg
+            string username = HttpContext.Session.GetString("username");
+            User connectedUser = _userContext.GetUserByUsername(username);
+            _chatsContxt.AddChat(curr, connectedUser);
+            return Ok();
+            
+        }
+        /* update the details of user with id "userName */
+        // PUT api/<ContactsController>/user1 
         [HttpPut("{userName}")]
-        public void Put(string userName, [FromBody] User user)
+        public ActionResult Put(string userName, [FromBody] UserForPUTApi user)
         {
-            User curr = _context.GetAll().Find(x => x.id == userName);
+            User curr = _userContext.GetUserByUsername(userName);
             if (curr == null)
             {
-                return;
+                return NotFound();
             }
-            curr.id = user.id;
-            curr.Password = user.Password;
-            curr.name =  user.name;
-            curr.Image = user.Image;
-            Message message = _context.GetLastMsg(userName);
-            curr.last = message.Content;
-            curr.lastdate = message.Created;
+            curr.Name = user.name;
+            curr.Server = user.server;
+            return Ok();
         }
 
+        /* delete the user with id "userName" from contacts list for every user connected */
         // DELETE api/<ContactsController>/user1
         [HttpDelete("{userName}")]
-        public void Delete(string userName)
+        public ActionResult Delete(string userName)
         {
-            _context.RemoveUser(userName);
+            _userContext.RemoveUser(userName); // delete from users list
+            // delete from chats list:
+            List<Tuple<int, User>> contactsChats = _chatsContxt.GetOtherUsers(_userContext.GetUserByUsername(userName));
+            if (contactsChats == null)
+            {
+                return NotFound();
+            }
+            foreach (Tuple<int, User> contact in contactsChats)
+            {
+                _chatsContxt.RemoveChat(contact.Item2.Id, userName);
+            }
+            return Ok();
         }
     }
 }

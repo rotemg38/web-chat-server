@@ -49,7 +49,7 @@ namespace WebServerApp
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Rate}/{action=Index}/{id?}");
+                    pattern: "{controller=Rate}/{action=Index}/{Id?}");
             });
         }
     }

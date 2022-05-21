@@ -11,8 +11,8 @@ namespace Services
         private static List<Chat> _chats = new List<Chat>
         {
                 new Chat { ChatId = 1, Participants = new Tuple<User, User>(
-                new User { id = "shir", name = "Shir", Password = "Shir1998", Image = "default_picture.jpg" },
-                new User { id = "dwayne johnson", name = "The Rock", Password = "Strong9", Image = "https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg" }
+                new User("shir", "Shir", "Shir1998", "default_picture.jpg", "localhost:5000"),
+                new User("dwayne johnson", "The Rock","Strong9","https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg", "localhost:5000")
                 )
             },
 
@@ -20,8 +20,8 @@ namespace Services
             {
                 ChatId = 2,
                 Participants = new Tuple<User, User>(
-                new User { id = "rotem", name = "Rotem", Password = "Rotem100", Image = "default_picture.jpg" },
-                new User { id = "obama", name = "Barak Obama", Password = "Prsident7", Image = "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTE4MDAzNDEwNzg5ODI4MTEw/barack-obama-12782369-1-402.jpg" }
+                new User("rotem", "Rotem", "Rotem100", "default_picture.jpg", "localhost:5000"),
+                new User("obama", "Barak Obama", "Prsident7", "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTE4MDAzNDEwNzg5ODI4MTEw/barack-obama-12782369-1-402.jpg", "localhost:5000")
                 )
             }
         };
@@ -42,11 +42,11 @@ namespace Services
             List<Chat> chats = new List<Chat>();
             foreach (Chat chat in _chats)
             {
-                if (chat.Participants.Item1.id == username)
+                if (chat.Participants.Item1.Id == username)
                 {
                     chats.Add(chat);
                 }
-                else if (chat.Participants.Item2.id == username)
+                else if (chat.Participants.Item2.Id == username)
                 {
                     chats.Add(chat);
                 }
@@ -81,7 +81,7 @@ namespace Services
                 return null;
             }
             Tuple<User,User> users = chat.Participants;
-            if (users.Item1.id == user.id)
+            if (users.Item1.Id == user.Id)
                 return users.Item2;
             return users.Item1;
         }
@@ -89,24 +89,24 @@ namespace Services
         public List<Chat> GetUserChats(string userName)
         {
             return _chats.FindAll((chat) => {
-                return chat.Participants.Item1.id == userName ||
-                chat.Participants.Item2.id == userName; });
+                return chat.Participants.Item1.Id == userName ||
+                chat.Participants.Item2.Id == userName; });
         }
 
         public Chat GetChatByUsers(string user1, string user2)
         {
             return _chats.Find((chat) => { return
-                (chat.Participants.Item1.id == user1 &&
-                chat.Participants.Item2.id == user2) ||
-                (chat.Participants.Item1.id == user2 &&
-                chat.Participants.Item2.id == user1);
+                (chat.Participants.Item1.Id == user1 &&
+                chat.Participants.Item2.Id == user2) ||
+                (chat.Participants.Item1.Id == user2 &&
+                chat.Participants.Item2.Id == user1);
             });
         }
 
         // return the chat who was created, or the chat that was already in the list.
         public Chat AddChat(User user1, User user2) 
         {
-            Chat findChat = GetChatByUsers(user1.id, user2.id);
+            Chat findChat = GetChatByUsers(user1.Id, user2.Id);
             if (findChat != null)
             {
                 return findChat;
@@ -120,7 +120,11 @@ namespace Services
             return newChat;
         }
 
-      
+        public void RemoveChat(string user1, string user2)
+        {
+            Chat chat = GetChatByUsers(user1, user2);
+            _chats.Remove(chat);
+        } 
 
     }
 }

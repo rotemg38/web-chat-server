@@ -45,9 +45,9 @@ namespace WbeAPIAdvencedProgramming.Controllers
             return JsonSerializer.Serialize(fixedMsgs);
         }
 
-        // GET api/Contacts/:userName/Messages/:id
+        // GET api/Contacts/:userName/Messages/:Id
         [HttpGet("{idMsg}")]
-        //get the message with the given id of the given usrname
+        //get the message with the given Id of the given usrname
         public string Get(string userName, int idMsg)
         {
             Message msg = _contextMsg.GetMsgById(idMsg);
@@ -63,9 +63,9 @@ namespace WbeAPIAdvencedProgramming.Controllers
             return null;
         }
 
-        // PUT api/Contacts/:userName/Messages/:id
+        // PUT api/Contacts/:userName/Messages/:Id
         [HttpPut("{idMsg}")]
-        //update the message where the id = idMsg
+        //update the message where the Id = idMsg
         //todo: ask for what we need username
         public IActionResult Put(string userName, int idMsg, [FromBody] TmpMsg content)
         {
@@ -76,9 +76,9 @@ namespace WbeAPIAdvencedProgramming.Controllers
             return NotFound();
         }
 
-        // DELETE api/Contacts/:userName/Messages/:id
+        // DELETE api/Contacts/:userName/Messages/:Id
         [HttpDelete("{idMsg}")]
-        //delete the message of the user with the given id
+        //delete the message of the user with the given Id
         public IActionResult Delete(string userName, int idMsg)
         {
             List<Chat> chats = _contextChats.GetUserChats(userName);

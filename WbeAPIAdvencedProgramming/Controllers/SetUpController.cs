@@ -11,6 +11,7 @@ using Services;
 namespace WbeAPIAdvencedProgramming.Controllers
 {
     [Route("api/setup")]
+    [ApiController]
     public class SetUpController : Controller
     {
 
@@ -21,15 +22,15 @@ namespace WbeAPIAdvencedProgramming.Controllers
             _context = context;
         }
 
-        // POST api/SetUP/LogIn
+        // POST api/setup/login
         [HttpPost("login")]
-        public IActionResult PostLogin([FromBody]User user)
+        public IActionResult PostLogin([FromBody] User user)
         {
             if (user == null)
             {
                 return NotFound();
             }
-            HttpContext.Session.SetString("username", user.id);
+            HttpContext.Session.SetString("username", user.Id);
             return Ok();
 
         }
@@ -43,7 +44,7 @@ namespace WbeAPIAdvencedProgramming.Controllers
                 return NotFound();
             }
             _context.Add(user);
-            HttpContext.Session.SetString("username", user.id);
+            HttpContext.Session.SetString("username", user.Id);
             return Ok();
         }
 
