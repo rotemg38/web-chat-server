@@ -1,5 +1,6 @@
 using Services;
 using Microsoft.AspNetCore.Session;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +23,10 @@ builder.Services.AddSession(options => {
     //to save session between conrollers
     //options.Cookie.IsEssential = true;
 });
-
+builder.Services.AddAuthentication(options =>
+{
+    //options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+}).AddCookie();
 
 builder.Services.AddCors(options =>
 {
@@ -48,6 +52,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseCors("myAllowSpecificOrigins");
