@@ -22,10 +22,12 @@ namespace WbeAPIAdvencedProgramming.Controllers
             _context = context;
         }
 
-        // POST api/setup/login
-        [HttpPost("login")]
-        public IActionResult PostLogin([FromBody] User user)
+        // Get api/setup/{userName}
+        // get for login
+        [HttpGet("{userName}")]
+        public IActionResult Get(string userName)
         {
+            User user = _context.GetUserByUsername(userName);
             if (user == null)
             {
                 return NotFound();
@@ -33,6 +35,21 @@ namespace WbeAPIAdvencedProgramming.Controllers
             HttpContext.Session.SetString("username", user.Id);
             return Ok();
 
+        }
+
+        // POST api/setup
+        // post for register
+        /*[HttpPost]
+        public IActionResult Post([FromBody] User user)
+        {
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            HttpContext.Session.SetString("username", user.Id);
+            _context.Add(user);
+            return Ok();
         }
 
         // POST api/setup/register
@@ -44,11 +61,24 @@ namespace WbeAPIAdvencedProgramming.Controllers
                 return NotFound();
             }
             
-            HttpContext.Session.SetString("username", user.id);
+            HttpContext.Session.SetString("username", user.Id);
             _context.Add(user);
             return Ok();
         }
+        
+        [HttpGet("register/{userName}/{name}")]
+        public IActionResult GetRegister(string userName, string name)
+        {
+            //User user = _context.GetUserByUsername(userName);
+            if (userName == null)
+            {
+                return NotFound();
+            }
+            User user = new User(userName, name, "localhost:5000");
+            HttpContext.Session.SetString("username", user.Id);
+            return Ok();
 
+        }*/
     }
 }
 
