@@ -34,8 +34,9 @@ namespace WebAPI.Controllers
                 User newUser = new User(invitaion.to, "", invitaion.server);
                 _userContext.Add(newUser);
                 _chatContext.AddChat(newUser, _userContext.GetUserByUsername(invitaion.from));
-                
-            } else if(invitaion.server != "localhost: 5000" && _userContext.GetUserByUsername(invitaion.to) != null)
+
+            }
+            else if (invitaion.server != "localhost: 5000" && _userContext.GetUserByUsername(invitaion.to) != null)
             {
                 User newUser = new User(invitaion.from, "", invitaion.server);
                 _userContext.Add(newUser);
@@ -48,7 +49,7 @@ namespace WebAPI.Controllers
             return Ok();
         }
 
-        
+
 
     }
 }

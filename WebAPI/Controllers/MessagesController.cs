@@ -12,7 +12,8 @@ using Services;
 namespace WebAPI.Controllers
 {
     //class to match the requirment of the api
-    public class TmpMsg{
+    public class TmpMsg
+    {
         public string Content { get; set; }
     }
 
@@ -51,12 +52,13 @@ namespace WebAPI.Controllers
         public string Get(string userName, int idMsg)
         {
             Message msg = _contextMsg.GetMsgById(idMsg);
-            if(msg == null)
+            if (msg == null)
             {
                 return JsonSerializer.Serialize(msg);
             }
             //todo: check if needed to check this, and if not for what we need userName?
-            if(_contextMsgInChat.IsSender(userName, msg.Id)){
+            if (_contextMsgInChat.IsSender(userName, msg.Id))
+            {
                 return JsonSerializer.Serialize(msg);
             }
 
@@ -82,7 +84,7 @@ namespace WebAPI.Controllers
         public IActionResult Delete(string userName, int idMsg)
         {
             List<Chat> chats = _contextChats.GetUserChats(userName);
-            if(chats.Count != 0)
+            if (chats.Count != 0)
             {
                 _contextMsgInChat.DeleteMsg(chats, idMsg);
                 _contextMsg.DeleteMsg(idMsg);
@@ -113,10 +115,10 @@ namespace WebAPI.Controllers
             {
                 return NotFound();
             }
-            
+
             Message msg = _contextMsg.AddMsg(content.Content, true);
             Chat chat = _contextChats.GetChatByUsers(userName, currentUserName);
-            
+
             //if this is new messag need to create chat
             if (chat == null)
             {
@@ -125,7 +127,7 @@ namespace WebAPI.Controllers
             MsgUsers msgUsers = _contextMsgInChat.CreatMsgUsers(userFrom, userTo, msg);
             _contextMsgInChat.AddMsgInChat(chat, msgUsers);
 
-            return Created("Post",new { Content= msg.Content});
+            return Created("Post", new { Content = msg.Content });
         }
     }
 }

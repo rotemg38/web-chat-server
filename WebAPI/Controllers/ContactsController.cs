@@ -24,7 +24,7 @@ namespace WebAPI.Controllers
         private readonly UsersService _userContext;
         private readonly ChatsService _chatsContxt;
 
-        public ContactsController (UsersService userContext, ChatsService chatContext)
+        public ContactsController(UsersService userContext, ChatsService chatContext)
         {
             _userContext = userContext;
             _chatsContxt = chatContext;
@@ -32,14 +32,14 @@ namespace WebAPI.Controllers
 
         /* return all contacts of coneected user */
         // GET: api/<ContactsController>
-        [HttpGet] 
+        [HttpGet]
         public string Get() // todo: need to be checked
         {
-            List<User> usersList = new List<User> ();
+            List<User> usersList = new List<User>();
             string username = HttpContext.Session.GetString("username");
             User connectedUser = _userContext.GetUserByUsername(username);
             List<Tuple<int, User>> chatsANdUsers = _chatsContxt.GetOtherUsers(connectedUser);
-            foreach(Tuple<int, User> user in chatsANdUsers)
+            foreach (Tuple<int, User> user in chatsANdUsers)
             {
                 usersList.Add(user.Item2);
             }
@@ -64,14 +64,14 @@ namespace WebAPI.Controllers
             return Content(JsonSerializer.Serialize(user));
         }
 
-        /* create new contact to connected user - add new connection between them (empty) */ 
+        /* create new contact to connected user - add new connection between them (empty) */
         // POST api/<ContactsController>
         [HttpPost]
-        public ActionResult Post([FromBody] UserForApi user) 
+        public ActionResult Post([FromBody] UserForApi user)
         {
             //User curr = new User(user.id, user.name, user.server);
             User curr = _userContext.GetUserByUsername(user.id);
-            if(curr == null)
+            if (curr == null)
             {
                 return NotFound();
             }
@@ -80,7 +80,7 @@ namespace WebAPI.Controllers
             User connectedUser = _userContext.GetUserByUsername(username);
             _chatsContxt.AddChat(curr, connectedUser);
             return Ok();
-            
+
         }
         /* update the details of user with id "userName */
         // PUT api/<ContactsController>/user1 
