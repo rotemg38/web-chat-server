@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Services;
 using Models;
 
-namespace WbeAPIAdvencedProgramming.Controllers
+namespace WebAPI.Controllers
 {
     public class InvitaionApi
     {
