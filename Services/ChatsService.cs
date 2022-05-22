@@ -5,14 +5,14 @@ using Models;
 
 namespace Services
 {
-    //todo: in the future we ill add Repository project that will access to DB.
+    
     public class ChatsService
     {
         private static List<Chat> _chats = new List<Chat>
         {
                 new Chat { ChatId = 1, Participants = new Tuple<User, User>(
-                new User("shir", "Shir", "Shir1998", "default_picture.jpg", "localhost:5000"),
-                new User("dwayne johnson", "The Rock","Strong9","https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg", "localhost:5000")
+                new User("shir", "Shir", "Shir1998", "default_picture.jpg", "localhost:5067"),
+                new User("dwayne johnson", "The Rock","Strong9","https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg", "localhost:5067")
                 )
             },
 
@@ -20,8 +20,8 @@ namespace Services
             {
                 ChatId = 2,
                 Participants = new Tuple<User, User>(
-                new User("rotem", "Rotem", "Rotem100", "default_picture.jpg", "localhost:5000"),
-                new User("obama", "Barak Obama", "Prsident7", "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTE4MDAzNDEwNzg5ODI4MTEw/barack-obama-12782369-1-402.jpg", "localhost:5000")
+                new User("rotem", "Rotem", "Rotem100", "default_picture.jpg", "localhost:5067"),
+                new User("obama", "Barak Obama", "Prsident7", "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTE4MDAzNDEwNzg5ODI4MTEw/barack-obama-12782369-1-402.jpg", "localhost:5067")
                 )
             }
         };
@@ -59,12 +59,12 @@ namespace Services
             List< Tuple < int,User >> chatIdAndUser = new List<Tuple<int, User>>();
             foreach (Chat chat in _chats)
             {
-                if (chat.Participants.Item1 == user)
+                if (chat.Participants.Item1.Id == user.Id)
                 {
                     Tuple<int, User> currentTup = Tuple.Create(chat.ChatId, chat.Participants.Item2);
                     chatIdAndUser.Add(currentTup);
                 }
-                else if (chat.Participants.Item2 == user)
+                else if (chat.Participants.Item2.Id == user.Id)
                 {
                     Tuple<int, User> currentTup = Tuple.Create(chat.ChatId, chat.Participants.Item1);
                     chatIdAndUser.Add(currentTup);
@@ -73,17 +73,42 @@ namespace Services
             return chatIdAndUser;
         }
 
+        public User GetOtherUserByChatId(int idChat, string username)
+        {
+            Chat chat = _chats.Find((chat) => { return chat.ChatId == idChat; });
+            if (chat == null)
+            {
+                return null;
+            }
+            Tuple<User, User> users = chat.Participants;
+            if (users.Item1.Id == username)
+                return users.Item2;
+            return users.Item1;
+        }
+
+
         /* Get the other user of a specific chat */
         public User GetOtherUserByChatId(int idChat, User user)
         {
-            Chat chat = _chats.Find((chat) => { return chat.ChatId == idChat; });
-            if(chat == null){
+            if(user == null)
+            {
                 return null;
             }
-            Tuple<User,User> users = chat.Participants;
-            if (users.Item1.Id == user.Id)
-                return users.Item2;
-            return users.Item1;
+            else
+            {
+                return GetOtherUserByChatId(idChat, user.Id);
+            }
+        }
+
+        public List<Tuple<int, string>> ExtractIdAndOtherUser(List<Chat> chats, string username)
+        {
+            List<Tuple<int, string>> lstdict = new List<Tuple<int, string>>();
+            foreach (Chat chat in chats)
+            {
+                string user2 = GetOtherUserByChatId(chat.ChatId, username).Id;
+                lstdict.Add(new Tuple<int, string>(chat.ChatId, user2));
+            }
+            return lstdict;
         }
 
         public List<Chat> GetUserChats(string userName)

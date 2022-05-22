@@ -35,40 +35,41 @@ namespace WebAPI.Controllers
 
         // GET: api/Contacts/:userName/Messages
         [HttpGet]
-        //get all mesages of user
-        public string Get(string userName)
+        //get all mesages of user with current user
+        public IActionResult Get(string userName)
         {
-            List<Chat> chats = _contextChats.GetUserChats(userName);
-            List<MsgUsers> messages = _contextMsgInChat.GetAllMessages(chats);
+            string currentUserName = HttpContext.Session.GetString("username");
+            if (currentUserName == null)
+            {
+                //todo: maybe redireect signin?
+                return NotFound();
+            }
+
+            Chat chat = _contextChats.GetChatByUsers(userName, currentUserName);
+            List<MsgUsers> messages = _contextMsgInChat.GetMessagesInChat(chat);
             List<Message> msgs = _contextMsgInChat.ExtractMessages(messages);
             List<Message> fixedMsgs = _contextMsgInChat.GetCopyWithFixedSent(userName, msgs);
 
-            return JsonSerializer.Serialize(fixedMsgs);
+            return Content(JsonSerializer.Serialize(fixedMsgs));
         }
 
         // GET api/Contacts/:userName/Messages/:Id
         [HttpGet("{idMsg}")]
         //get the message with the given Id of the given usrname
-        public string Get(string userName, int idMsg)
+        public IActionResult Get(string userName, int idMsg)
         {
             Message msg = _contextMsg.GetMsgById(idMsg);
             if (msg == null)
             {
-                return JsonSerializer.Serialize(msg);
-            }
-            //todo: check if needed to check this, and if not for what we need userName?
-            if (_contextMsgInChat.IsSender(userName, msg.Id))
-            {
-                return JsonSerializer.Serialize(msg);
+                return NotFound();
             }
 
-            return null;
+            return Content(JsonSerializer.Serialize(msg));
         }
 
         // PUT api/Contacts/:userName/Messages/:Id
         [HttpPut("{idMsg}")]
         //update the message where the Id = idMsg
-        //todo: ask for what we need username
         public IActionResult Put(string userName, int idMsg, [FromBody] TmpMsg content)
         {
             if (_contextMsg.UpdateMsg(idMsg, content.Content))
@@ -127,6 +128,7 @@ namespace WebAPI.Controllers
             MsgUsers msgUsers = _contextMsgInChat.CreatMsgUsers(userFrom, userTo, msg);
             _contextMsgInChat.AddMsgInChat(chat, msgUsers);
 
+            //todo: update the last message in each user!!!
             return Created("Post", new { Content = msg.Content });
         }
     }

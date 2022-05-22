@@ -15,14 +15,14 @@ namespace Services
                 {
                     ChatId = 1,
                     Participants = new Tuple<User, User>(
-                                            new User("shir", "Shir", "Shir1998", "default_picture.jpg", "localhost:5000"),
-                                            new User("dwayne johnson", "The Rock", "Strong9", "https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg", "localhost:5000")
+                                            new User("shir", "Shir", "Shir1998", "default_picture.jpg", "localhost:5067"),
+                                            new User("dwayne johnson", "The Rock", "Strong9", "https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg", "localhost:5067")
                                                         )
                 },
                 new List<MsgUsers> { new MsgUsers(
                                                 new Message(  1,   "content",  "10.10.10", true ),
-                                                new User("shir", "Shir", "Shir1998", "default_picture.jpg", "localhost:5000") ,
-                                                new User("dwayne johnson", "The Rock", "Strong9", "https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg", "localhost:5000")
+                                                new User("shir", "Shir", "Shir1998", "default_picture.jpg", "localhost:5067") ,
+                                                new User("dwayne johnson", "The Rock", "Strong9", "https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg", "localhost:5067")
 
                                                   )
                                     }
@@ -33,15 +33,20 @@ namespace Services
             
         }
 
+        public List<MsgUsers> GetMessagesInChat(int chatId)
+        {
+            MsgInChat msgInChat = _msgInChatsList.Find(
+                   (msgInChat) => { return msgInChat.Chat.ChatId == chatId; });
+            if (msgInChat == null)
+                return null;
+            return msgInChat.Messages;
+        }
+
         public List<MsgUsers> GetMessagesInChat(Chat chat)
         {
             if (chat != null)
             {
-                MsgInChat msgInChat = _msgInChatsList.Find(
-                       (msgInChat) => { return msgInChat.Chat.ChatId == chat.ChatId; });
-                if (msgInChat == null)
-                    return null;
-                return msgInChat.Messages;
+                return GetMessagesInChat(chat.ChatId);
             }
             return null;
         }
@@ -49,9 +54,12 @@ namespace Services
         public List<Message> ExtractMessages(List<MsgUsers> msgsUsers)
         {
             List<Message> lstMsgs = new List<Message>();
-            foreach (MsgUsers  msgUser in msgsUsers)
+            if (msgsUsers != null)
             {
-                lstMsgs.Add(msgUser.Message);
+                foreach (MsgUsers msgUser in msgsUsers)
+                {
+                    lstMsgs.Add(msgUser.Message);
+                }
             }
             return lstMsgs;
         }

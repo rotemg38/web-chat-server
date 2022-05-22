@@ -37,6 +37,10 @@ namespace WebAPI.Controllers
         {
             List<User> usersList = new List<User>();
             string username = HttpContext.Session.GetString("username");
+            if(username == null)
+            {
+                return null;//return null as error that no user is connected
+            }
             User connectedUser = _userContext.GetUserByUsername(username);
             List<Tuple<int, User>> chatsANdUsers = _chatsContxt.GetOtherUsers(connectedUser);
             foreach (Tuple<int, User> user in chatsANdUsers)
@@ -49,43 +53,44 @@ namespace WebAPI.Controllers
         /* return the details of the user with the Id "userName" */
         // GET api/<ContactsController>/user1
         [HttpGet("{userName}")]
-        public ActionResult Get(string userName)
+        public IActionResult Get(string userName)
         {
-            User emptyUser = new User("", "", "");
-            //User user = _userContext.GetAll().Find(x => x.Id == userName);
             User user = _userContext.GetUserByUsername(userName);
             if (user == null)
             {
-                //return null;
-                //return NotFound();
-                return Content(JsonSerializer.Serialize(emptyUser));
+                return NotFound();
             }
-            //return JsonSerializer.Serialize(user); 
             return Content(JsonSerializer.Serialize(user));
         }
 
         /* create new contact to connected user - add new connection between them (empty) */
         // POST api/<ContactsController>
         [HttpPost]
-        public ActionResult Post([FromBody] UserForApi user)
+        public IActionResult Post([FromBody] UserForApi user)
         {
-            //User curr = new User(user.id, user.name, user.server);
+            string username = HttpContext.Session.GetString("username");
+            if (username == null)
+            {
+                //if no user is connected return error
+                return NotFound();
+            }
+            User connectedUser = _userContext.GetUserByUsername(username);
             User curr = _userContext.GetUserByUsername(user.id);
+
+            //todo: check maybe need to create the user because its says add new contact?
             if (curr == null)
             {
                 return NotFound();
             }
-
-            string username = HttpContext.Session.GetString("username");
-            User connectedUser = _userContext.GetUserByUsername(username);
+            
             _chatsContxt.AddChat(curr, connectedUser);
-            return Ok();
 
+            return Created("Post", user);
         }
         /* update the details of user with id "userName */
         // PUT api/<ContactsController>/user1 
         [HttpPut("{userName}")]
-        public ActionResult Put(string userName, [FromBody] UserForPUTApi user)
+        public IActionResult Put(string userName, [FromBody] UserForPUTApi user)
         {
             User curr = _userContext.GetUserByUsername(userName);
             if (curr == null)
@@ -94,13 +99,15 @@ namespace WebAPI.Controllers
             }
             curr.Name = user.name;
             curr.Server = user.server;
-            return Ok();
+
+            //todo: check if needed to return also the user object? with code 204
+            return NoContent();
         }
 
         /* delete the user with id "userName" from contacts list for every user connected */
         // DELETE api/<ContactsController>/user1
         [HttpDelete("{userName}")]
-        public ActionResult Delete(string userName)
+        public IActionResult Delete(string userName)
         {
             _userContext.RemoveUser(userName); // delete from users list
             // delete from chats list:
@@ -113,7 +120,7 @@ namespace WebAPI.Controllers
             {
                 _chatsContxt.RemoveChat(contact.Item2.Id, userName);
             }
-            return Ok();
+            return NoContent();
         }
     }
 }

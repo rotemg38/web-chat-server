@@ -14,21 +14,21 @@ namespace Services
         private static List<User> _users = new List<User>
         {
             new User
-            ("rihanna", "Rihanna", "SingWithMe8", "https://pbs.twimg.com/profile_images/1133109643734130688/BwioAwkz.jpg", "localhost:5000")
+            ("rihanna", "Rihanna", "SingWithMe8", "https://pbs.twimg.com/profile_images/1133109643734130688/BwioAwkz.jpg", "localhost:5067")
             ,new User
-            ("elon", "Elon Musk", "ImRich10", "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTc5OTk2ODUyMTMxNzM0ODcy/gettyimages-1229892983-square.jpg", "localhost:5000")
+            ("elon", "Elon Musk", "ImRich10", "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTc5OTk2ODUyMTMxNzM0ODcy/gettyimages-1229892983-square.jpg", "localhost:5067")
             ,new User
-            ("ryan", "Ryan Reynolds", "FunnyMe5", "https://pbs.twimg.com/profile_images/1299844050208555008/7wMQaJRA_400x400.jpg", "localhost:5000")
+            ("ryan", "Ryan Reynolds", "FunnyMe5", "https://pbs.twimg.com/profile_images/1299844050208555008/7wMQaJRA_400x400.jpg", "localhost:5067")
             ,new User
-            ("shir", "Shir", "Shir1998", "default_picture.jpg", "localhost:5000")
+            ("shir", "Shir", "Shir1998", "default_picture.jpg", "localhost:5067")
             ,new User
-            ("rotem", "Rotem", "Rotem100", "default_picture.jpg","localhost:5000")
+            ("rotem", "Rotem", "Rotem100", "default_picture.jpg","localhost:5067")
             ,new User
-            ("dwayne johnson", "The Rock", "Strong9", "https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg", "localhost:5000")
+            ("dwayne johnson", "The Rock", "Strong9", "https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg", "localhost:5067")
             ,new User
-            ("michael", "Michael Jackson", "TheKIng3", "https://geo-media.beatport.com/image_size/590x404/080c6217-0efa-4323-8b7e-2ad3546a1def.jpg", "localhost:5000")
+            ("michael", "Michael Jackson", "TheKIng3", "https://geo-media.beatport.com/image_size/590x404/080c6217-0efa-4323-8b7e-2ad3546a1def.jpg", "localhost:5067")
             ,new User
-            ("obama", "Barak Obama", "Prsident7", "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTE4MDAzNDEwNzg5ODI4MTEw/barack-obama-12782369-1-402.jpg", "localhost:5000")
+            ("obama", "Barak Obama", "Prsident7", "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTE4MDAzNDEwNzg5ODI4MTEw/barack-obama-12782369-1-402.jpg", "localhost:5067")
 
         };
 
