@@ -1,6 +1,7 @@
 ﻿using Services;
 using Microsoft.AspNetCore.Session;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using WebAPI.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,9 @@ builder.Services.AddScoped<UsersService>();
 builder.Services.AddScoped<ChatsService>();
 builder.Services.AddScoped<MessagesService>();
 builder.Services.AddScoped<MsgInChatService>();
+
+builder.Services.AddSignalR();
+
 
 
 builder.Services.AddDistributedMemoryCache();
@@ -60,5 +64,7 @@ app.UseCors("myAllowSpecificOrigins");
 app.UseSession();
 
 app.MapControllers();
+
+app.UseEndpoints(endpoints => { endpoints.MapHub<MsgHub>("/hubs/msgs"); });
 
 app.Run();
