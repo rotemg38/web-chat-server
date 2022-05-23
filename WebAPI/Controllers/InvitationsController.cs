@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Services;
 using Models;
+using System.Text.Json;
 
 namespace WebAPI.Controllers
 {
@@ -26,29 +27,23 @@ namespace WebAPI.Controllers
 
         /* create an invitain (new chat) between 2 users */
         [HttpPost]
-        [Route("invitations")]
+        [Route("api/invitations")]
         public ActionResult Invitations([FromBody] InvitaionApi invitaion) // todo: we need to check if useres exists?
         {
-            // check if invitaion is from another Server user. if so - we need to add it to our list.
-            // if user "from" is exists (not null) then the "to" user is from another Server, and the oppsite.
-            if (invitaion.server != _myServerName && _userContext.GetUserByUsername(invitaion.from) != null)
-            {
-                User newUser = new User(invitaion.to, "", invitaion.server);
-                _userContext.Add(newUser);
-                _chatContext.AddChat(newUser, _userContext.GetUserByUsername(invitaion.from));
-
-            }
-            else if (invitaion.server != _myServerName && _userContext.GetUserByUsername(invitaion.to) != null)
-            {
-                User newUser = new User(invitaion.from, "", invitaion.server);
-                _userContext.Add(newUser);
-                _chatContext.AddChat(newUser, _userContext.GetUserByUsername(invitaion.to));
-            }
-            else if (_userContext.GetUserByUsername(invitaion.from) == null && _userContext.GetUserByUsername(invitaion.to) == null)
+            User from = _userContext.GetUserByUsername(invitaion.from);
+            User to = _userContext.GetUserByUsername(invitaion.to);
+            if (_userContext.GetUserByUsername(invitaion.to) == null)
             {
                 return NotFound();
             }
-            return Ok();
+            if (_userContext.GetUserByUsername(invitaion.from) == null)
+            {
+                User newUser = new User(invitaion.from, invitaion.from, invitaion.server);
+                _userContext.Add(newUser);
+                from = newUser;
+            }
+            _chatContext.AddChat(from, to);
+            return Content(JsonSerializer.Serialize(_chatContext.GetChatByUsers(from.Id, to.Id)));
         }
 
 

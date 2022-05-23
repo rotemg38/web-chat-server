@@ -55,6 +55,28 @@ namespace WebAPI.Controllers
                 _contextChats.ExtractIdAndOtherUser(chats, username)));
         }
 
+        [HttpGet("msgs/{chatid}")]
+        public IActionResult GetMsgsOfChat(int chatId)
+        {
+            string clock = "";
+            Message? lastOne = null;
+            List<MsgUsers> msgsInChat = _contextMsgInChat.GetMessagesInChat(chatId);
+            if (msgsInChat != null)
+            {
+                foreach (MsgUsers msgAndUser in msgsInChat)
+                {
+                    // get the msg that created last from all msgs in current chat:
+                    //if (msgAndUser.Message.Created >= clock) 
+                    if (String.Compare(msgAndUser.Message.Created, clock) >= 0) // created is biger then clock
+                    {
+                        lastOne = msgAndUser.Message;
+                        clock = msgAndUser.Message.Created;
+                    }
+                }
+            }
+            return Content(JsonSerializer.Serialize(lastOne));
+        }
+
     }
 }
 
