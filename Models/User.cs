@@ -19,7 +19,7 @@ namespace Models
         
         public string last { get; set; }
         public string lastdate { get; set; }
-        public string Server = "localhost:5000";
+        public string Server { get; set; }
 
         public User(string id, string name, string server)
         {
@@ -42,6 +42,11 @@ namespace Models
             Server = server;
             last = null;
             lastdate = null;
+        }
+
+        public User()
+        {
+
         }
 
     }

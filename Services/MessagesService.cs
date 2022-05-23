@@ -15,10 +15,7 @@ namespace Services
         private static int _msgId = 1;
         
 
-        public MessagesService() {
-            
-            
-        }
+        public MessagesService() { }
 
         public int GenerateMsgId()
         {
@@ -83,6 +80,8 @@ namespace Services
             return false;
         }
 
+       
+        
 
     }
 }
