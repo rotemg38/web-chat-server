@@ -29,9 +29,17 @@ namespace WebAPI.Controllers
         [HttpGet("{chatId}")]
         public IActionResult Get(int chatId)
         {
+            string currentUserName = HttpContext.Session.GetString("username");
+            if (currentUserName == null)
+            {
+                //todo: maybe redireect signin?
+                return NotFound();
+            }
             List<MsgUsers> messages = _contextMsgInChat.GetMessagesInChat(chatId);
             List<Message> msgs = _contextMsgInChat.ExtractMessages(messages);
-            return Content(JsonSerializer.Serialize(msgs));
+            List<Message> fixedMsgs = _contextMsgInChat.GetCopyWithFixedSent(currentUserName, msgs);
+
+            return Content(JsonSerializer.Serialize(fixedMsgs));
         }
 
         // GET: api/chats/:user/:chatId
@@ -78,10 +86,10 @@ namespace WebAPI.Controllers
             
         }
 
-        [HttpGet("{user1}/{user2}")]
-        public IActionResult GetChatByUsers(string user1, string uer2)
+        [HttpGet("getchat/{user1}/{user2}")]
+        public IActionResult GetChatByUsers(string user1, string user2)
         {
-            Chat chat = _contextChats.GetChatByUsers(user1, uer2);
+            Chat chat = _contextChats.GetChatByUsers(user1, user2);
             if (chat == null)
             {
                 return Content(null);
