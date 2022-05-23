@@ -131,27 +131,6 @@ namespace WebAPI.Controllers
             //todo: update the last message in each user!!!
             return Created("Post", new { Content = msg.Content });
         }
-
-        [HttpGet("chat/{chatId}")] // probbly doesnt need it :(
-        public IActionResult GetMsgsOfChat(int chatId)
-        {
-            List<Message> msgsList = new List<Message>();
-            List<MsgInChat> msgsinChat = _contextMsgInChat.GetAll();
-            foreach(MsgInChat msg in msgsinChat)
-            {
-                if (msg.Chat.ChatId == chatId)
-                {
-                    foreach(MsgUsers message in msg.Messages)
-                    {
-                        msgsList.Add(message.Message);
-                    }
-                }
-            }
-            return Content(JsonSerializer.Serialize(msgsList));
-        } 
-
-        [HttpGet]
-        public IActionResult GetMsgsOfChat(int chatId)
     }
 }
 
