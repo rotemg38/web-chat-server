@@ -19,7 +19,6 @@ builder.Services.AddScoped<MsgInChatService>();
 builder.Services.AddSignalR();
 
 
-
 builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSession(options => {
@@ -60,6 +59,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseCors("myAllowSpecificOrigins");
+
+app.UseRouting();
 
 app.UseSession();
 
