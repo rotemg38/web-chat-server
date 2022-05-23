@@ -19,13 +19,7 @@ namespace Services
                                             new User("dwayne johnson", "The Rock", "Strong9", "https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg", "localhost:5067")
                                                         )
                 },
-                new List<MsgUsers> { new MsgUsers(
-                                                new Message(  1,   "content",  "10.10.10", true ),
-                                                new User("shir", "Shir", "Shir1998", "default_picture.jpg", "localhost:5067") ,
-                                                new User("dwayne johnson", "The Rock", "Strong9", "https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg", "localhost:5067")
-
-                                                  )
-                                    }
+                new List<MsgUsers> {}
                 )
         };
 
