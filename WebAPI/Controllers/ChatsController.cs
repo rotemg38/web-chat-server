@@ -75,6 +75,18 @@ namespace WebAPI.Controllers
                 }
             }
             return Content(JsonSerializer.Serialize(lastOne));
+            
+        }
+
+        [HttpGet("{user1}/{user2}")]
+        public IActionResult GetChatByUsers(string user1, string uer2)
+        {
+            Chat chat = _contextChats.GetChatByUsers(user1, uer2);
+            if (chat == null)
+            {
+                return Content(null);
+            }
+            return Content(JsonSerializer.Serialize(chat));
         }
 
     }
