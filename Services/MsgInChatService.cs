@@ -33,6 +33,10 @@ namespace Services
             
         }
 
+        public List<MsgInChat> GetAll()
+        {
+            return _msgInChatsList;
+        }
         public List<MsgUsers> GetMessagesInChat(Chat chat)
         {
             if (chat != null)

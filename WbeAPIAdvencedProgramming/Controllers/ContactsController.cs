@@ -36,7 +36,7 @@ namespace WebAPI.Controllers
         public string Get() // todo: need to be checked
         {
             List<User> usersList = new List<User> ();
-            string username = HttpContext.Session.GetString("username");
+            string username = HttpContext.Session.GetString(key: "username");
             User connectedUser = _userContext.GetUserByUsername(username);
             List<Tuple<int, User>> chatsANdUsers = _chatsContxt.GetOtherUsers(connectedUser);
             foreach(Tuple<int, User> user in chatsANdUsers)
@@ -56,8 +56,6 @@ namespace WebAPI.Controllers
             User user = _userContext.GetUserByUsername(userName);
             if (user == null)
             {
-                //return null;
-                //return NotFound();
                 return Content(JsonSerializer.Serialize(emptyUser));
             }
             //return JsonSerializer.Serialize(user); 

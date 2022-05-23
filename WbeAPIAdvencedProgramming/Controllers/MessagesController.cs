@@ -51,14 +51,14 @@ namespace WbeAPIAdvencedProgramming.Controllers
         public string Get(string userName, int idMsg)
         {
             Message msg = _contextMsg.GetMsgById(idMsg);
-            if(msg == null)
+            if(msg != null)
             {
                 return JsonSerializer.Serialize(msg);
             }
             //todo: check if needed to check this, and if not for what we need userName?
-            if(_contextMsgInChat.IsSender(userName, msg.Id)){
+            /*if(_contextMsgInChat.IsSender(userName, msg.Id)){
                 return JsonSerializer.Serialize(msg);
-            }
+            }*/
 
             return null;
         }
@@ -127,6 +127,27 @@ namespace WbeAPIAdvencedProgramming.Controllers
 
             return Created("Post",new { Content= msg.Content});
         }
+
+        [HttpGet("chat/{chatId}")] // probbly doesnt need it :(
+        public IActionResult GetMsgsOfChat(int chatId)
+        {
+            List<Message> msgsList = new List<Message>();
+            List<MsgInChat> msgsinChat = _contextMsgInChat.GetAll();
+            foreach(MsgInChat msg in msgsinChat)
+            {
+                if (msg.Chat.ChatId == chatId)
+                {
+                    foreach(MsgUsers message in msg.Messages)
+                    {
+                        msgsList.Add(message.Message);
+                    }
+                }
+            }
+            return Content(JsonSerializer.Serialize(msgsList));
+        } 
+
+        [HttpGet]
+        public IActionResult GetMsgsOfChat(int chatId)
     }
 }
 
