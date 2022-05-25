@@ -33,9 +33,8 @@ namespace Services
             return id;
         }
 
-        /// <summary>
+       
         /// This function find the message with the given Id
-        /// </summary>
         /// <param Name="id">message Id</param>
         /// <returns>The message if found, otherwise null</returns>
         public Message GetMsgById(int id)
@@ -43,9 +42,7 @@ namespace Services
             return _msgs.Find((msg) => { return msg.Id == id; });
         }
 
-        /// <summary>
         /// This function delete a message with the given Id
-        /// </summary>
         /// <param Name="id">message Id</param>
         /// <returns>true for success and false for failur</returns>
         public bool DeleteMsg(int id)
@@ -59,9 +56,7 @@ namespace Services
             return false;
         }
 
-        /// <summary>
         /// This function updates the content of the given message
-        /// </summary>
         /// <param Name="content"> the new content</param>
         /// <param Name="idMsg"> the msg we want to update</param>
         /// <returns>true for success and false for failur</returns>

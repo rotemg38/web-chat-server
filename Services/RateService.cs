@@ -4,7 +4,6 @@ using Models;
 
 namespace Services
 {
-    //todo: in the future we ill add Repository project that will access to DB.
     public class RateService : IRateService
     {
         private static List<Rate> _ratings = new List<Rate>();

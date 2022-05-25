@@ -106,7 +106,6 @@ namespace Services
             foreach (MsgUsers msg in messages)
             {
                 if (String.Compare(msg.Message.Created, date) > 0) // the left string is bigger (i think-nedd to check)
-                //if (msg.Message.Date > date)
                 {
                     date = msg.Message.Created;
                     finalMsg = msg.Message;

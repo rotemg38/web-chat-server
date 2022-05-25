@@ -11,7 +11,6 @@ using System.Text.Json;
 
 namespace WebAPI.Controllers
 {
-
     [Route("api/chats")]
     public class ChatsController : Controller
     {
@@ -94,7 +93,6 @@ namespace WebAPI.Controllers
             }
             return Content(JsonSerializer.Serialize(chat));
         }
-
     }
 }
 
