@@ -8,12 +8,8 @@ namespace Services
     //todo: in the future we ill add Repository project that will access to DB.
     public class MessagesService
     {
-        private static List<Message> _msgs = new List<Message>
-        {
-            new Message(1, "content", "10.10.10", true)
-        };
-        private static int _msgId = 1;
-        
+        private static List<Message> _msgs = new List<Message>();
+        private static int _msgId = 0;
 
         public MessagesService() { }
 
