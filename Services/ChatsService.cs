@@ -8,24 +8,9 @@ namespace Services
     
     public class ChatsService
     {
-        private static List<Chat> _chats = new List<Chat>
-        {
-                new Chat { ChatId = 1, Participants = new Tuple<User, User>(
-                new User("shir", "Shir", "Shir1998", "default_picture.jpg", "localhost:5067"),
-                new User("dwayne johnson", "The Rock","Strong9","https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg", "localhost:5067")
-                )
-            },
-
-            new Chat
-            {
-                ChatId = 2,
-                Participants = new Tuple<User, User>(
-                new User("rotem", "Rotem", "Rotem100", "default_picture.jpg", "localhost:5067"),
-                new User("obama", "Barak Obama", "Prsident7", "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTE4MDAzNDEwNzg5ODI4MTEw/barack-obama-12782369-1-402.jpg", "localhost:5067")
-                )
-            }
-        };
-        private static int _chatsId = 2;
+        private static List<Chat> _chats = new List<Chat>();
+        
+        private static int _chatsId = 0;
 
         public ChatsService() { }
 
