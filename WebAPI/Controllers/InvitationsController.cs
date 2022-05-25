@@ -42,7 +42,7 @@ namespace WebAPI.Controllers
                 from = newUser;
             }
             _chatContext.AddChat(from, to);
-            return Content(JsonSerializer.Serialize(_chatContext.GetChatByUsers(from.Id, to.Id)));
+            return NoContent();
         }
     }
 }
