@@ -11,10 +11,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<UsersService>();
-builder.Services.AddScoped<ChatsService>();
-builder.Services.AddScoped<MessagesService>();
-builder.Services.AddScoped<MsgInChatService>();
+builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<IChatsService, ChatsService>();
+builder.Services.AddScoped<IMessagesService, MessagesService>();
+builder.Services.AddScoped<IMsgInChatService, MsgInChatService>();
 
 builder.Services.AddSignalR();
 

@@ -5,12 +5,9 @@ namespace Models
 {
     public class User
     {
-        //todo define the DataAnnotations
-
         [Required]//unique this is key-> username
         public string Id { get; set; }
 
-        //[Required]
         public string Name { get; set; }
         
         public string Password { get; set; }
@@ -18,7 +15,9 @@ namespace Models
         public string Image { get; set; }
         
         public string last { get; set; }
+
         public string lastdate { get; set; }
+
         public string Server { get; set; }
 
         public User(string id, string name, string server)

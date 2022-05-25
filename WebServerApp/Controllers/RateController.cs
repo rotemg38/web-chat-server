@@ -72,8 +72,6 @@ namespace WebServerApp.Controllers
         }
 
         // POST: Rate/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("Id,Name,RateNumber,Feedback")] Rate rate)
@@ -104,8 +102,6 @@ namespace WebServerApp.Controllers
         }
 
         // POST: Rate/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, [Bind("Id,Name,RateNumber,Feedback")] Rate rate)
@@ -162,8 +158,6 @@ namespace WebServerApp.Controllers
             _context.Remove(id);
             return RedirectToAction(nameof(Index));
         }
-
-       
 
         private bool RateExists(int id)
         {

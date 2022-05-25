@@ -6,7 +6,7 @@ using Models;
 namespace Services
 {
     
-    public class ChatsService
+    public class ChatsService :IChatsService
     {
         private static List<Chat> _chats = new List<Chat>();
         
@@ -20,8 +20,6 @@ namespace Services
             return _chatsId;
         }
 
-
-        //todo: check if needed?
         public List<Chat> GetChatsByUsername(string username)
         {
             List<Chat> chats = new List<Chat>();

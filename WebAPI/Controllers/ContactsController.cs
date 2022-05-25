@@ -21,10 +21,10 @@ namespace WebAPI.Controllers
     [ApiController]
     public class ContactsController : ControllerBase
     {
-        private readonly UsersService _userContext;
-        private readonly ChatsService _chatsContxt;
+        private readonly IUsersService _userContext;
+        private readonly IChatsService _chatsContxt;
 
-        public ContactsController(UsersService userContext, ChatsService chatContext)
+        public ContactsController(IUsersService userContext, IChatsService chatContext)
         {
             _userContext = userContext;
             _chatsContxt = chatContext;
@@ -33,7 +33,7 @@ namespace WebAPI.Controllers
         /* return all contacts of coneected user */
         // GET: api/<ContactsController>
         [HttpGet]
-        public string Get() // todo: need to be checked
+        public string Get()
         {
             List<User> usersList = new List<User>();
             string username = HttpContext.Session.GetString("username");
@@ -87,6 +87,7 @@ namespace WebAPI.Controllers
 
             return Created("Post", user);
         }
+
         /* update the details of user with id "userName */
         // PUT api/<ContactsController>/user1 
         [HttpPut("{userName}")]
@@ -109,17 +110,17 @@ namespace WebAPI.Controllers
         [HttpDelete("{userName}")]
         public IActionResult Delete(string userName)
         {
-            _userContext.RemoveUser(userName); // delete from users list
             // delete from chats list:
             List<Tuple<int, User>> contactsChats = _chatsContxt.GetOtherUsers(_userContext.GetUserByUsername(userName));
-            if (contactsChats == null)
+            if (contactsChats != null)
             {
-                return NotFound();
+                foreach (Tuple<int, User> contact in contactsChats)
+                {
+                    _chatsContxt.RemoveChat(contact.Item2.Id, userName);
+                }
             }
-            foreach (Tuple<int, User> contact in contactsChats)
-            {
-                _chatsContxt.RemoveChat(contact.Item2.Id, userName);
-            }
+
+            _userContext.RemoveUser(userName); // delete from users list
             return NoContent();
         }
     }

@@ -15,11 +15,10 @@ namespace WebAPI.Controllers
 
     public class InvitationsController : Controller
     {
-        private readonly ChatsService _chatContext;
-        private readonly UsersService _userContext;
-        private readonly string _myServerName = "localhost:5067";
+        private readonly IChatsService _chatContext;
+        private readonly IUsersService _userContext;
 
-        public InvitationsController(ChatsService chatContext, UsersService userContext)
+        public InvitationsController(IChatsService chatContext, IUsersService userContext)
         {
             _chatContext = chatContext;
             _userContext = userContext;

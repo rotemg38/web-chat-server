@@ -7,8 +7,6 @@ using System.Text.Json;
 using Models;
 using Services;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace WebAPI.Controllers
 {
     //class to match the requirment of the api
@@ -20,12 +18,12 @@ namespace WebAPI.Controllers
     [Route("api/contacts/{userName}/messages")]
     public class MessagesController : Controller
     {
-        private readonly UsersService _contextUsers;
-        private readonly ChatsService _contextChats;
-        private readonly MessagesService _contextMsg;
-        private readonly MsgInChatService _contextMsgInChat;
+        private readonly IUsersService _contextUsers;
+        private readonly IChatsService _contextChats;
+        private readonly IMessagesService _contextMsg;
+        private readonly IMsgInChatService _contextMsgInChat;
 
-        public MessagesController(MessagesService contextMsg, MsgInChatService contextMsgInChat, ChatsService contextChats, UsersService usersService)
+        public MessagesController(IMessagesService contextMsg, IMsgInChatService contextMsgInChat, IChatsService contextChats, IUsersService usersService)
         {
             _contextMsg = contextMsg;
             _contextMsgInChat = contextMsgInChat;
@@ -41,7 +39,6 @@ namespace WebAPI.Controllers
             string currentUserName = HttpContext.Session.GetString("username");
             if (currentUserName == null)
             {
-                //todo: maybe redireect signin?
                 return NotFound();
             }
 
@@ -63,8 +60,9 @@ namespace WebAPI.Controllers
             {
                 return NotFound();
             }
+            Message fixedmsg = _contextMsgInChat.GetCopyWithFixedSent(userName, msg);
 
-            return Content(JsonSerializer.Serialize(msg));
+            return Content(JsonSerializer.Serialize(fixedmsg));
         }
 
         // PUT api/Contacts/:userName/Messages/:Id
@@ -106,7 +104,6 @@ namespace WebAPI.Controllers
             string currentUserName = HttpContext.Session.GetString("username");
             if (currentUserName == null)
             {
-                //todo: maybe redireect signin?
                 return NotFound();
             }
 
@@ -128,7 +125,13 @@ namespace WebAPI.Controllers
             MsgUsers msgUsers = _contextMsgInChat.CreatMsgUsers(userFrom, userTo, msg);
             _contextMsgInChat.AddMsgInChat(chat, msgUsers);
 
-            //todo: update the last message in each user!!!
+            //update the last message in each user
+            userTo.last = content.Content;
+            userFrom.last = content.Content;
+
+            userTo.lastdate = DateTime.Now.ToString();
+            userFrom.lastdate = DateTime.Now.ToString();
+
             return Created("Post", new { Content = msg.Content });
         }
     }
