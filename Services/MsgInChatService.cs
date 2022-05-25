@@ -8,20 +8,7 @@ namespace Services
     public class MsgInChatService
     {
         //
-        private static List<MsgInChat> _msgInChatsList = new List<MsgInChat>
-        {
-            new MsgInChat(
-                new Chat
-                {
-                    ChatId = 1,
-                    Participants = new Tuple<User, User>(
-                                            new User("shir", "Shir", "Shir1998", "default_picture.jpg", "localhost:5067"),
-                                            new User("dwayne johnson", "The Rock", "Strong9", "https://www.biography.com/.image/t_share/MTgwOTI0NDYwNjQ2Mjc4MjMy/gettyimages-1061959920.jpg", "localhost:5067")
-                                                        )
-                },
-                new List<MsgUsers> {}
-                )
-        };
+        private static List<MsgInChat> _msgInChatsList = new List<MsgInChat>();
 
         public MsgInChatService() {
             
