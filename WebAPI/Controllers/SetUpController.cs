@@ -15,9 +15,9 @@ namespace WebAPI.Controllers
     public class SetUpController : Controller
     {
 
-        private readonly UsersService _contextUser;
+        private readonly IUsersService _contextUser;
 
-        public SetUpController(UsersService context)
+        public SetUpController(IUsersService context)
         {
             _contextUser = context;
         }

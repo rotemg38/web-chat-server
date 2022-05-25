@@ -11,7 +11,7 @@ namespace Services
 
         public RateService()
         {
-            //_ratings.Add(new Rate() { Id = 1, TextReview = "great app", Name = "user1", RateNumber = 5 });
+
         }
 
         public Rate GetRate(int? id)

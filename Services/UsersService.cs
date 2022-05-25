@@ -6,8 +6,7 @@ using Services;
 
 namespace Services
 {
-    //todo: in the future we ill add Repository project that will access to DB.
-    public class UsersService
+    public class UsersService : IUsersService
     {
         private readonly ChatsService _chatsService;
         private readonly MsgInChatService _msgInChatService;
@@ -115,7 +114,5 @@ namespace Services
             }
             return finalMsg;
         }
-        
-
     }
 }

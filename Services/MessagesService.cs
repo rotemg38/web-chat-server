@@ -5,8 +5,7 @@ using Models;
 
 namespace Services
 {
-    //todo: in the future we ill add Repository project that will access to DB.
-    public class MessagesService
+    public class MessagesService : IMessagesService
     {
         private static List<Message> _msgs = new List<Message>();
         private static int _msgId = 0;
@@ -75,9 +74,6 @@ namespace Services
             }
             return false;
         }
-
-       
-        
 
     }
 }

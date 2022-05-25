@@ -15,10 +15,10 @@ namespace WebAPI.Controllers
     [Route("api/chats")]
     public class ChatsController : Controller
     {
-        private readonly ChatsService _contextChats;
-        private readonly MsgInChatService _contextMsgInChat;
+        private readonly IChatsService _contextChats;
+        private readonly IMsgInChatService _contextMsgInChat;
 
-        public ChatsController(MsgInChatService contextMsgInChat, ChatsService contextChats)
+        public ChatsController(IMsgInChatService contextMsgInChat, IChatsService contextChats)
         {
             _contextMsgInChat = contextMsgInChat;
             _contextChats = contextChats;
@@ -32,7 +32,6 @@ namespace WebAPI.Controllers
             string currentUserName = HttpContext.Session.GetString("username");
             if (currentUserName == null)
             {
-                //todo: maybe redireect signin?
                 return NotFound();
             }
             List<MsgUsers> messages = _contextMsgInChat.GetMessagesInChat(chatId);
@@ -74,7 +73,6 @@ namespace WebAPI.Controllers
                 foreach (MsgUsers msgAndUser in msgsInChat)
                 {
                     // get the msg that created last from all msgs in current chat:
-                    //if (msgAndUser.Message.Created >= clock) 
                     if (String.Compare(msgAndUser.Message.Created, clock) >= 0) // created is biger then clock
                     {
                         lastOne = msgAndUser.Message;

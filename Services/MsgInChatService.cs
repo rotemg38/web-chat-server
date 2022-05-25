@@ -4,10 +4,9 @@ using Models;
 
 namespace Services
 {
-    //todo: in the future we ill add Repository project that will access to DB.
-    public class MsgInChatService
+    public class MsgInChatService :IMsgInChatService
     {
-        //
+        
         private static List<MsgInChat> _msgInChatsList = new List<MsgInChat>();
 
         public MsgInChatService() {
@@ -82,7 +81,6 @@ namespace Services
             
         }
 
-        //todo: check if needed?
         public MsgUsers CreatMsgUsers(User from, User to, Message msg)
         {
             return new MsgUsers(msg, from, to);
@@ -166,6 +164,14 @@ namespace Services
             }
 
             return fixedMsgs;
+        }
+
+        public Message GetCopyWithFixedSent(string userName, Message msg)
+        {
+            Message fixedMsg = new Message(msg);
+            fixedMsg.Sent = IsSender(userName, msg.Id);
+            
+            return fixedMsg;
         }
     }
 }
