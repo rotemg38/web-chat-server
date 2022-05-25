@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +17,17 @@ namespace WebServerApp.Controllers
         public RateController(IRateService context)
         {
             _context = context;
+        }
+
+        public IActionResult Signout()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:5067/");
+                var responseTask = client.GetAsync("api/setup/disConnectUser");
+                responseTask.Wait();
+            }
+            return Redirect("http://localhost:3000/");
         }
 
         // GET: Rate

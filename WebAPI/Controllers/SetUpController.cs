@@ -59,12 +59,19 @@ namespace WebAPI.Controllers
 
         [HttpGet("connectedUser")]
         //get the connected user
-        //todo: maybe there is no need?
         public IActionResult Get()
         {
             var user = HttpContext.Session.GetString("username");
             return Content(user);
         }
+
+        [HttpGet("disConnectUser")]
+        public IActionResult DisConnectUser()
+        {
+            HttpContext.Session.Clear();
+            return Ok();
+        }
+
     }
 }
 
