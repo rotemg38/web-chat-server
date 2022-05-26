@@ -4,14 +4,13 @@ using Models;
 
 namespace Services
 {
-    //todo: in the future we ill add Repository project that will access to DB.
     public class RateService : IRateService
     {
         private static List<Rate> _ratings = new List<Rate>();
 
         public RateService()
         {
-            //_ratings.Add(new Rate() { Id = 1, TextReview = "great app", Name = "user1", RateNumber = 5 });
+
         }
 
         public Rate GetRate(int? id)

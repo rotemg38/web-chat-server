@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using Services;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace WebAPI.Controllers
 {
     //class to match the requirment of the api
@@ -21,12 +19,12 @@ namespace WebAPI.Controllers
     [Route("api/transfer")]
     public class TransferController : Controller
     {
-        private readonly UsersService _contextUsers;
-        private readonly ChatsService _contextChats;
-        private readonly MessagesService _contextMsg;
-        private readonly MsgInChatService _contextMsgInChat;
+        private readonly IUsersService _contextUsers;
+        private readonly IChatsService _contextChats;
+        private readonly IMessagesService _contextMsg;
+        private readonly IMsgInChatService _contextMsgInChat;
 
-        public TransferController(MessagesService contextMsg, MsgInChatService contextMsgInChat, ChatsService contextChats, UsersService usersService)
+        public TransferController(IMessagesService contextMsg, IMsgInChatService contextMsgInChat, IChatsService contextChats, IUsersService usersService)
         {
             _contextMsg = contextMsg;
             _contextMsgInChat = contextMsgInChat;
@@ -36,7 +34,6 @@ namespace WebAPI.Controllers
 
         // POST api/values
         [HttpPost]
-        //todo: check if users should be existing- means if users should have chat?
         public IActionResult Post([FromBody] TmpTransfer info)
         {
             User userTo = _contextUsers.GetUserByUsername(info.To);
