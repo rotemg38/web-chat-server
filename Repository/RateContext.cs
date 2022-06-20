@@ -33,7 +33,7 @@ namespace Repository
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<Rate>().ToTable("Rates");
+			modelBuilder.Entity<Rate>().ToTable("Rate");
 			modelBuilder.Entity<Rate>(entity =>
 			{
 				entity.HasKey(k => k.Id);

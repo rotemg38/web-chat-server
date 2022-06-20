@@ -31,9 +31,15 @@ namespace Repository
 			return MsgUsers.ToList<MsgUsers>();
 		}
 
+		
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<MsgUsers>().ToTable("MsgUsers");
+			modelBuilder.Entity<MsgUsers>(entity =>
+			{
+				entity.HasNoKey();
+
+			});
 			base.OnModelCreating(modelBuilder);
 		}
 	}

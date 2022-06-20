@@ -12,7 +12,7 @@ namespace Services
 
         public RateService()
         {
-            _context = new RateContext();
+            //_context = new RateContext();
         }
 
         public Rate GetRate(int? id)

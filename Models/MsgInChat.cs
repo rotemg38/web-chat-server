@@ -5,6 +5,13 @@ namespace Models
 {
     public class MsgInChat
     {
+        public Chat Chat { get; set; }
+        public List<MsgUsers> Messages { get; set; }
+
+        public MsgInChat()
+        {
+
+        }
         public MsgInChat(Chat chat, MsgUsers msgUsers)
         {
             Chat = chat;
@@ -15,7 +22,7 @@ namespace Models
             Chat = chat;
             Messages = msgs;
         }
-        public Chat Chat { get; set; }
-        public List<MsgUsers> Messages { get; set; }
+
+       
     }
 }
