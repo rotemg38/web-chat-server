@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using Repository;
 using Models;
 
 namespace Services
@@ -9,10 +10,14 @@ namespace Services
     public class ChatsService :IChatsService
     {
         private static List<Chat> _chats = new List<Chat>();
+
+        private ChatContext _context;
         
         private static int _chatsId = 0;
 
-        public ChatsService() { }
+        public ChatsService() {
+            _context = new ChatContext();
+        }
 
         public int GenerateChatId()
         {

@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using Models;
+using Repository;
 
 namespace Services
 {
     public class RateService : IRateService
     {
         private static List<Rate> _ratings = new List<Rate>();
+        private RateContext _context;
 
         public RateService()
         {
-
+            _context = new RateContext();
         }
 
         public Rate GetRate(int? id)

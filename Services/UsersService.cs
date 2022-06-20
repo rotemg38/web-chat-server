@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Models;
-using Services;
+using Repository;
 
 namespace Services
 {
@@ -31,7 +31,11 @@ namespace Services
 
         };
 
-        public UsersService() { }
+        private UserContext _context;
+
+        public UsersService() {
+            _context = new UserContext();
+        }
 
         public List<User> GetAll()
         {
