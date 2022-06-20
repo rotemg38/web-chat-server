@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Models;
+using Repository;
 
 namespace Services
 {
@@ -9,8 +10,10 @@ namespace Services
         
         private static List<MsgInChat> _msgInChatsList = new List<MsgInChat>();
 
+        private MsgInChatContext _context;
+
         public MsgInChatService() {
-            
+            _context = new MsgInChatContext();
         }
 
         public List<MsgUsers> GetMessagesInChat(int chatId)

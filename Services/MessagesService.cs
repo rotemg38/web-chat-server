@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Models;
+using Repository;
 
 namespace Services
 {
@@ -10,7 +11,11 @@ namespace Services
         private static List<Message> _msgs = new List<Message>();
         private static int _msgId = 0;
 
-        public MessagesService() { }
+        private MessageContext _context;
+
+        public MessagesService() {
+            _context = new MessageContext();
+        }
 
         public int GenerateMsgId()
         {
