@@ -16,7 +16,7 @@ namespace Services
         private static int _chatsId = 0;
 
         public ChatsService() {
-            _context = new ChatContext();
+           // _context = new ChatContext();
         }
 
         public int GenerateChatId()
@@ -30,11 +30,11 @@ namespace Services
             List<Chat> chats = new List<Chat>();
             foreach (Chat chat in _chats)
             {
-                if (chat.Participants.Item1.Id == username)
+                if (chat.user1.Id == username)
                 {
                     chats.Add(chat);
                 }
-                else if (chat.Participants.Item2.Id == username)
+                else if (chat.user2.Id == username)
                 {
                     chats.Add(chat);
                 }
@@ -47,14 +47,14 @@ namespace Services
             List< Tuple < int,User >> chatIdAndUser = new List<Tuple<int, User>>();
             foreach (Chat chat in _chats)
             {
-                if (chat.Participants.Item1.Id == user.Id)
+                if (chat.user1.Id == user.Id)
                 {
-                    Tuple<int, User> currentTup = Tuple.Create(chat.ChatId, chat.Participants.Item2);
+                    Tuple<int, User> currentTup = Tuple.Create(chat.ChatId, chat.user2);
                     chatIdAndUser.Add(currentTup);
                 }
-                else if (chat.Participants.Item2.Id == user.Id)
+                else if (chat.user2.Id == user.Id)
                 {
-                    Tuple<int, User> currentTup = Tuple.Create(chat.ChatId, chat.Participants.Item1);
+                    Tuple<int, User> currentTup = Tuple.Create(chat.ChatId, chat.user1);
                     chatIdAndUser.Add(currentTup);
                 }
             }
@@ -68,10 +68,10 @@ namespace Services
             {
                 return null;
             }
-            Tuple<User, User> users = chat.Participants;
-            if (users.Item1.Id == username)
-                return users.Item2;
-            return users.Item1;
+            //Tuple<User, User> users = chat.Participants;
+            if (chat.user1.Id == username)
+                return chat.user2;
+            return chat.user1;
         }
 
 
@@ -102,17 +102,17 @@ namespace Services
         public List<Chat> GetUserChats(string userName)
         {
             return _chats.FindAll((chat) => {
-                return chat.Participants.Item1.Id == userName ||
-                chat.Participants.Item2.Id == userName; });
+                return chat.user1.Id == userName ||
+                chat.user2.Id == userName; });
         }
 
         public Chat GetChatByUsers(string user1, string user2)
         {
             return _chats.Find((chat) => { return
-                (chat.Participants.Item1.Id == user1 &&
-                chat.Participants.Item2.Id == user2) ||
-                (chat.Participants.Item1.Id == user2 &&
-                chat.Participants.Item2.Id == user1);
+                (chat.user1.Id == user1 &&
+                chat.user2.Id == user2) ||
+                (chat.user1.Id == user2 &&
+                chat.user2.Id == user1);
             });
         }
 
@@ -127,7 +127,9 @@ namespace Services
             Chat newChat = new Chat()
             {
                 ChatId = GenerateChatId(),
-                Participants = new Tuple<User, User>(user1, user2)
+                //Participants = new Tuple<User, User>(user1, user2)
+                user1 = user1,
+                user2 = user2
             };
             _chats.Add(newChat);
             return newChat;

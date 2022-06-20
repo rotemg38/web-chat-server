@@ -30,9 +30,10 @@ namespace Repository
 			return Chats.ToList<Chat>();
 		}
 
+		
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<Chat>().ToTable("Chats");
+			modelBuilder.Entity<Chat>().ToTable("Chat");
 			modelBuilder.Entity<Chat>(entity =>
 			{
 				entity.HasKey(k => k.ChatId);

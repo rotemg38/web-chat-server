@@ -36,6 +36,10 @@ namespace Repository
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<MsgInChat>().ToTable("MsgInChat");
+			modelBuilder.Entity<MsgInChat>(entity =>
+			{
+				entity.HasNoKey();
+			});
 			base.OnModelCreating(modelBuilder);
 		}
 	}

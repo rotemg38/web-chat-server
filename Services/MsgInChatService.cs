@@ -13,7 +13,7 @@ namespace Services
         private MsgInChatContext _context;
 
         public MsgInChatService() {
-            _context = new MsgInChatContext();
+           // _context = new MsgInChatContext();
         }
 
         public List<MsgUsers> GetMessagesInChat(int chatId)

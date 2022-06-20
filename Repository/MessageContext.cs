@@ -35,7 +35,7 @@ namespace Repository
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<Message>().ToTable("Messages");
+			modelBuilder.Entity<Message>().ToTable("Message");
 			modelBuilder.Entity<Message>(entity =>
 			{
 				entity.HasKey(k => k.Id);

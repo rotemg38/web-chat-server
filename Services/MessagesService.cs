@@ -14,7 +14,7 @@ namespace Services
         private MessageContext _context;
 
         public MessagesService() {
-            _context = new MessageContext();
+           // _context = new MessageContext();
         }
 
         public int GenerateMsgId()

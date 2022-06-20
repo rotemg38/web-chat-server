@@ -34,7 +34,7 @@ namespace Services
         private UserContext _context;
 
         public UsersService() {
-            _context = new UserContext();
+            //_context = new UserContext();
         }
 
         public List<User> GetAll()
