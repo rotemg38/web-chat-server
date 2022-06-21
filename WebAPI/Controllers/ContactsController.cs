@@ -29,6 +29,25 @@ namespace WebAPI.Controllers
             _userContext = userContext;
             _chatsContxt = chatContext;
         }
+        /* return all contacts of user */
+        // GET: api/<ContactsController>/users/{username}
+        [HttpGet("users/{username}")]
+        public string GetUsers(string username)
+        {
+            List<User> usersList = new List<User>();
+            
+            if (username == null)
+            {
+                return null;//return null as error that no user is connected
+            }
+            User connectedUser = _userContext.GetUserByUsername(username);
+            List<Tuple<int, User>> chatsANdUsers = _chatsContxt.GetOtherUsers(connectedUser);
+            foreach (Tuple<int, User> user in chatsANdUsers)
+            {
+                usersList.Add(user.Item2);
+            }
+            return JsonSerializer.Serialize(usersList);
+        }
 
         /* return all contacts of coneected user */
         // GET: api/<ContactsController>
