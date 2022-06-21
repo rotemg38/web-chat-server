@@ -32,7 +32,24 @@ namespace Repository
 			return Users.ToList<User>();
 			
         }
-		
+
+		public User getUser(String username)
+        {
+			return (User)Users.Where(user => user.Id == username);
+
+        }
+		public void insert(User user)
+        {
+			Users.Add(user);
+			SaveChanges();
+        }
+
+		public void updateImage(String username, String img)
+		{
+			var user = new User { Id = username, Image = img };
+			Users.Attach(user).Property(x => x.Image).IsModified = true;
+			SaveChanges();
+		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -45,7 +62,7 @@ namespace Repository
 			base.OnModelCreating(modelBuilder);
         }
 
-		/*
+	/*	
 		public UserContext CreateDbContext(string[] args)
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<UserContext>();
