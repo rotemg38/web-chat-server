@@ -120,6 +120,8 @@ namespace WebAPI.Controllers
             curr.Name = user.name;
             curr.Server = user.server;
 
+            _userContext.updateUserNameAndServer(curr);
+
             //todo: check if needed to return also the user object? with code 204
             return NoContent();
         }

@@ -8,27 +8,27 @@ namespace Repository
 	public class RateContext : DbContext
 	{
 		public DbSet<Rate> Rates { get; set; }
-
-		public RateContext()
+        private string connectionString =
+        //	"Data Source=newIcqDB.db";
+        "FileName=/Users/rotemgh/Documents/programingCourses/yearB/AdvancedProgramming2/AdvancedProgrammingWebServerSide/AdvancedProgrammingWebServer/newIcqDB.db";
+        //"FileName=newIcqDB.db";
+        public RateContext()
+			//(string connectionString)
 			//(DbContextOptions<RateContext> options): base(options)
 		{
-			//Database.EnsureCreated();
+			Database.EnsureCreated();
+			//this.connectionString = connectionString;
 		}
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
 			//optionsBuilder.UseSqlite("Data Source=newIcqDB.db");
-			optionsBuilder.UseSqlite("FileName=newIcqDB.db", options =>
+			optionsBuilder.UseSqlite(connectionString, options =>
 			{
 				options.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
 			});
 
 			base.OnConfiguring(optionsBuilder);
-		}
-
-		public List<Rate> getAll()
-		{
-			return Rates.ToList<Rate>();
 		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -42,6 +42,36 @@ namespace Repository
 			base.OnModelCreating(modelBuilder);
 		}
 
-	}
+		public List<Rate> getAllRate()
+		{
+			return Rates.ToList<Rate>();
+		}
+
+        public Rate? getRate(int? id)
+        {
+            return Rates.Where(rate => rate.Id == id)
+                .Select(rate => rate).SingleOrDefault();
+        }
+
+        public void insertRate(Rate rate)
+        {
+            Rates.Add(rate);
+            SaveChanges();
+        }
+
+        public void removeRate(Rate rate)
+        {
+            Rates.Remove(rate);
+            SaveChanges();
+        }
+
+        public void updateRate(Rate rate)
+        {
+            Rates.Attach(rate).Property(x => x.Feedback).IsModified = true;
+            Rates.Attach(rate).Property(x => x.Name).IsModified = true;
+            SaveChanges();
+        }
+
+    }
 }
 

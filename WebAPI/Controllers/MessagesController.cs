@@ -132,6 +132,9 @@ namespace WebAPI.Controllers
             userTo.lastdate = DateTime.Now.ToString();
             userFrom.lastdate = DateTime.Now.ToString();
 
+            _contextUsers.updateUserLastMsg(userTo);
+            _contextUsers.updateUserLastMsg(userFrom);
+
             return Created("Post", new { Content = msg.Content });
         }
     }

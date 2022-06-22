@@ -10,7 +10,7 @@ namespace Services
     {
         private readonly ChatsService _chatsService;
         private readonly MsgInChatService _msgInChatService;
-        private static List<User> _users = new List<User>
+        /*private static List<User> _users = new List<User>
         {
             new User
             ("rihanna", "Rihanna", "SingWithMe8", "https://pbs.twimg.com/profile_images/1133109643734130688/BwioAwkz.jpg", "localhost:5067")
@@ -29,27 +29,34 @@ namespace Services
             ,new User
             ("obama", "Barak Obama", "Prsident7", "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTE4MDAzNDEwNzg5ODI4MTEw/barack-obama-12782369-1-402.jpg", "localhost:5067")
 
-        };
+        };*/
 
-        private UserContext _context;
+        //private UserContext _context;
+        //private DataContext _dataContext;
+        private ServerDbContext _context;
 
         public UsersService() {
-            //_context = new UserContext();
+            //_dataContext = new DataContext();
+            //_context = _dataContext.userContext;
+            _context = new ServerDbContext();
         }
 
         public List<User> GetAll()
         {
-            return _users;
+            //return _users;
+            return _context.getAllUsers();
         }
         public void Add(User user)
         {
-            _users.Add(user);
+            //_users.Add(user);
+            _context.insertUser(user);
         }
 
         public void AddImg(string userName, string imgSrc)
         {
-            User curr = GetUserByUsername(userName);
-            curr.Image = imgSrc;
+            //User curr = GetUserByUsername(userName);
+            //curr.Image = imgSrc;
+            _context.updateImageUser(userName, imgSrc);
         }
 
         public string GetImgByUserName(string userName) 
@@ -82,12 +89,14 @@ namespace Services
         public void RemoveUser(string userName)
         {
             User curr = GetUserByUsername(userName);
-            _users.Remove(curr);
+            //_users.Remove(curr);
+            _context.removeUser(curr);
         }
 
         public User GetUserByUsername(string userName)
         {
-            return _users.Find((curr) => { return curr.Id == userName; });
+            //return _users.Find((curr) => { return curr.Id == userName; });
+            return _context.getUser(userName);
         }
 
         public Message GetLastMsg(string userName)
@@ -116,6 +125,16 @@ namespace Services
                 }
             }
             return finalMsg;
+        }
+
+        public void updateUserNameAndServer(User user)
+        {
+            _context.updateUserNameAndServer(user);
+        }
+
+        public void updateUserLastMsg(User user)
+        {
+            _context.updateUserLastMsg(user);
         }
     }
 }

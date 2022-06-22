@@ -26,7 +26,9 @@ namespace Services
 
         public Message GetLastMsg(string userName);
 
-        
+        public void updateUserNameAndServer(User user);
+
+        public void updateUserLastMsg(User user);
     }
 }
 
