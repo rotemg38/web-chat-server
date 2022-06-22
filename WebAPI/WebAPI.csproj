@@ -16,10 +16,12 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.6" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="FirebaseAdmin" Version="2.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Controllers\" />
+    <None Remove="FirebaseAdmin" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />

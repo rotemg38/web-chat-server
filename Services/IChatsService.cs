@@ -6,7 +6,7 @@ namespace Services
 {
 	public interface IChatsService
 	{
-        public int GenerateChatId();
+        //public int GenerateChatId();
 
         public List<Chat> GetChatsByUsername(string username);
 

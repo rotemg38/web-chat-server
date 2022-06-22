@@ -7,18 +7,16 @@ namespace Services
 {
     public class MsgInChatService :IMsgInChatService
     {
-        
-        private static List<MsgInChat> _msgInChatsList = new List<MsgInChat>();
-
-        private MsgInChatContext _context;
+        private ServerDbContext _context;
 
         public MsgInChatService() {
-           // _context = new MsgInChatContext();
+            _context = new ServerDbContext();
         }
 
         public List<MsgUsers> GetMessagesInChat(int chatId)
         {
-            MsgInChat msgInChat = _msgInChatsList.Find(
+            var msgInChatsList = _context.getAllMsgInChat();
+            MsgInChat msgInChat = msgInChatsList.Find(
                    (msgInChat) => { return msgInChat.Chat.ChatId == chatId; });
             if (msgInChat == null)
                 return null;
@@ -70,18 +68,7 @@ namespace Services
 
         public void AddMsgInChat(Chat chat, MsgUsers msg)
         {
-            var messages = GetMessagesInChat(chat);
-            //if there is no messages- need to add new
-            if(messages == null)
-            {
-                _msgInChatsList.Add(new MsgInChat(chat, msg));
-            }
-            else
-            {
-                //otherwise need to add the message to the existing list
-                messages.Add(msg);
-            }
-            
+            _context.insertMsgInChat(new MsgInChat(chat, msg));
         }
 
         public MsgUsers CreatMsgUsers(User from, User to, Message msg)
@@ -131,7 +118,7 @@ namespace Services
                 //if we found the message in one of them
                 if (msgsUsers != null)
                 {
-                    msgsUsers.Remove(GetMsg(msgsUsers, idMsg));
+                    _context.removeMsgInChat(GetMsg(msgsUsers, idMsg));
                     return true;
                 }
             }
@@ -142,9 +129,9 @@ namespace Services
         //check if the given username sent the message
         public bool IsSender(string userName, int idMsg)
         {
-            foreach(MsgInChat msgInChat in _msgInChatsList)
+            var msgInChatsList = _context.getAllMsgInChat();
+            foreach (MsgInChat msgInChat in msgInChatsList)
             {
-                //msgInChat.Chat
                 List<MsgUsers> msgsUsers = FindAllMsgs(msgInChat.Chat, idMsg);
                 MsgUsers msgUsers = GetMsg(msgsUsers, idMsg);
                 if(msgUsers != null)

@@ -8,34 +8,20 @@ namespace Services
 {
     public class MessagesService : IMessagesService
     {
-        private static List<Message> _msgs = new List<Message>();
-        private static int _msgId = 0;
-
-        private MessageContext _context;
+        private ServerDbContext _context;
 
         public MessagesService() {
-           // _context = new MessageContext();
-        }
-
-        public int GenerateMsgId()
-        {
-            _msgId++;
-            return _msgId;
+            _context = new ServerDbContext();
         }
 
         public Message AddMsg(string content, bool sent)
         {
-            var msg = new Message(GenerateMsgId(), content, DateTime.Now.ToString(), sent);
-            _msgs.Add(msg);
-            return msg;
+            return _context.insertMsg(new Message(content, DateTime.Now.ToString(), sent));
         }
 
         public int AddMsg(Message msg)
         {
-            int id = GenerateMsgId();
-            msg.Id = id;
-            _msgs.Add(msg);
-            return id;
+            return _context.insertMsg(msg).Id;
         }
 
        
@@ -44,7 +30,7 @@ namespace Services
         /// <returns>The message if found, otherwise null</returns>
         public Message GetMsgById(int id)
         {
-            return _msgs.Find((msg) => { return msg.Id == id; });
+            return _context.getMsg(id);
         }
 
         /// This function delete a message with the given Id
@@ -55,7 +41,7 @@ namespace Services
             var msg = GetMsgById(id);
             if (msg != null)
             {
-                _msgs.Remove(msg);
+                _context.Remove(msg);
                 return true;
             }
             return false;
@@ -67,9 +53,10 @@ namespace Services
         /// <returns>true for success and false for failur</returns>
         public bool UpdateMsg(int idMsg, string content)
         {
-            var oldMsg = GetMsgById(idMsg);
+            Message oldMsg = GetMsgById(idMsg);
             if (oldMsg != null) {
                 oldMsg.Content = content;
+                _context.updateContent(oldMsg);
                 return true;
             }
             return false;

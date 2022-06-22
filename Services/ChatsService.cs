@@ -3,32 +3,29 @@ using System;
 using System.Collections.Generic;
 using Repository;
 using Models;
+using System.Threading.Tasks;
 
 namespace Services
 {
     
     public class ChatsService :IChatsService
     {
-        private static List<Chat> _chats = new List<Chat>();
-
-        private ChatContext _context;
-        
-        private static int _chatsId = 0;
+        private ServerDbContext _context;
 
         public ChatsService() {
-           // _context = new ChatContext();
+            _context = new ServerDbContext();
         }
 
-        public int GenerateChatId()
+        private List<Chat> GetChats()
         {
-            _chatsId++;
-            return _chatsId;
+            return _context.getAllChats();
         }
 
         public List<Chat> GetChatsByUsername(string username)
         {
             List<Chat> chats = new List<Chat>();
-            foreach (Chat chat in _chats)
+            List<Chat> dbChats = GetChats();
+            foreach (Chat chat in dbChats)
             {
                 if (chat.user1.Id == username)
                 {
@@ -45,7 +42,8 @@ namespace Services
         public List<Tuple<int, User>> GetOtherUsers (User user)
         {
             List< Tuple < int,User >> chatIdAndUser = new List<Tuple<int, User>>();
-            foreach (Chat chat in _chats)
+            List<Chat> chats = GetChats();
+            foreach (Chat chat in chats)
             {
                 if (chat.user1.Id == user.Id)
                 {
@@ -63,12 +61,14 @@ namespace Services
 
         public User GetOtherUserByChatId(int idChat, string username)
         {
-            Chat chat = _chats.Find((chat) => { return chat.ChatId == idChat; });
+            List<Chat> dbChats = GetChats();
+            
+            Chat chat = dbChats.Find((chat) => { return chat.ChatId == idChat; });
             if (chat == null)
             {
                 return null;
             }
-            //Tuple<User, User> users = chat.Participants;
+           
             if (chat.user1.Id == username)
                 return chat.user2;
             return chat.user1;
@@ -101,14 +101,18 @@ namespace Services
 
         public List<Chat> GetUserChats(string userName)
         {
-            return _chats.FindAll((chat) => {
+            List<Chat> dbChats = GetChats();
+            
+            return dbChats.FindAll((chat) => {
                 return chat.user1.Id == userName ||
                 chat.user2.Id == userName; });
         }
 
         public Chat GetChatByUsers(string user1, string user2)
         {
-            return _chats.Find((chat) => { return
+            List<Chat> dbChats = GetChats();
+            
+            return dbChats.Find((chat) => { return
                 (chat.user1.Id == user1 &&
                 chat.user2.Id == user2) ||
                 (chat.user1.Id == user2 &&
@@ -126,19 +130,22 @@ namespace Services
             }
             Chat newChat = new Chat()
             {
-                ChatId = GenerateChatId(),
-                //Participants = new Tuple<User, User>(user1, user2)
                 user1 = user1,
                 user2 = user2
             };
-            _chats.Add(newChat);
+            _context.insertChat(newChat);
+
+            int id  = _context.getChat(user1, user2).ChatId;
+            newChat.ChatId = id;
+            
             return newChat;
         }
 
         public void RemoveChat(string user1, string user2)
         {
             Chat chat = GetChatByUsers(user1, user2);
-            _chats.Remove(chat);
+            
+            _context.removeChat(chat);
         } 
 
     }
