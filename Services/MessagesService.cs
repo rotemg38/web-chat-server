@@ -8,39 +8,19 @@ namespace Services
 {
     public class MessagesService : IMessagesService
     {
-        //private static List<Message> _msgs = new List<Message>();
-        //private static int _msgId = 0;
-
-        //private MessageContext _context;
-        //private DataContext _dataContext;
         private ServerDbContext _context;
 
         public MessagesService() {
-            //_dataContext = new DataContext();
-            //_context = _dataContext.messageContext;
             _context = new ServerDbContext();
         }
 
-        /*public int GenerateMsgId()
-        {
-            _msgId++;
-            return _msgId;
-        }*/
-
         public Message AddMsg(string content, bool sent)
         {
-            //var msg = new Message(GenerateMsgId(), content, DateTime.Now.ToString(), sent);
-            //_msgs.Add(msg);
-            //return msg;
             return _context.insertMsg(new Message(content, DateTime.Now.ToString(), sent));
         }
 
         public int AddMsg(Message msg)
         {
-            //int id = GenerateMsgId();
-            //msg.Id = id;
-            //_msgs.Add(msg);
-            //return id;
             return _context.insertMsg(msg).Id;
         }
 
@@ -50,7 +30,6 @@ namespace Services
         /// <returns>The message if found, otherwise null</returns>
         public Message GetMsgById(int id)
         {
-            //return _msgs.Find((msg) => { return msg.Id == id; });
             return _context.getMsg(id);
         }
 
@@ -62,7 +41,6 @@ namespace Services
             var msg = GetMsgById(id);
             if (msg != null)
             {
-                //_msgs.Remove(msg);
                 _context.Remove(msg);
                 return true;
             }

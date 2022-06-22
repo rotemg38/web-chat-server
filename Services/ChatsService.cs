@@ -10,25 +10,11 @@ namespace Services
     
     public class ChatsService :IChatsService
     {
-        //private static List<Chat> _chats = new List<Chat>();
-
-        //private ChatContext _context;
-        //private DataContext _dataContext;
         private ServerDbContext _context;
 
-        //private static int _chatsId = 0;
-
         public ChatsService() {
-            //_dataContext = new DataContext();
-            //_context = _dataContext.chatContext;
             _context = new ServerDbContext();
         }
-
-        /*public int GenerateChatId()
-        {
-            _chatsId++;
-            return _chatsId;
-        }*/
 
         private List<Chat> GetChats()
         {
@@ -82,7 +68,7 @@ namespace Services
             {
                 return null;
             }
-            //Tuple<User, User> users = chat.Participants;
+           
             if (chat.user1.Id == username)
                 return chat.user2;
             return chat.user1;
@@ -144,14 +130,11 @@ namespace Services
             }
             Chat newChat = new Chat()
             {
-                //ChatId = GenerateChatId(),
-                //Participants = new Tuple<User, User>(user1, user2)
                 user1 = user1,
                 user2 = user2
             };
             _context.insertChat(newChat);
 
-            //_chats.Add(newChat);
             int id  = _context.getChat(user1, user2).ChatId;
             newChat.ChatId = id;
             
@@ -161,7 +144,7 @@ namespace Services
         public void RemoveChat(string user1, string user2)
         {
             Chat chat = GetChatByUsers(user1, user2);
-            //_chats.Remove(chat);
+            
             _context.removeChat(chat);
         } 
 

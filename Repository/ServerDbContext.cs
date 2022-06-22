@@ -14,10 +14,6 @@ namespace Repository
         public DbSet<MsgUsers> MsgUsers { get; set; }
 
 
-        private string connectionString =
-            "FileName=serverSqlDB.db";
-        //"FileName=/Users/rotemgh/Documents/programingCourses/yearB/AdvancedProgramming2/AdvancedProgrammingWebServerSide/AdvancedProgrammingWebServer/newIcqDB.db";
-
         public ServerDbContext()
         {
             Database.EnsureCreated();
@@ -26,15 +22,8 @@ namespace Repository
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder
-                //.UseLazyLoadingProxies()
                 .UseSqlServer("Server=localhost;Database=master;User=sa;Password=Strong.Pwd-123;");
-            //+"Trusted_Connection=True;MultipleActiveResultSets=true");
-
-            /*optionsBuilder.UseSqlite(connectionString, options =>
-            {
-                options.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
-            });*/
-
+           
             base.OnConfiguring(optionsBuilder);
         }
 
@@ -82,14 +71,6 @@ namespace Repository
         public void DetachAllEntities()
         {
             ChangeTracker.Clear();
-            /*var changedEntriesCopy = this.ChangeTracker.Entries()
-                .Where(e => e.State == EntityState.Added ||
-                            e.State == EntityState.Modified ||
-                            e.State == EntityState.Deleted)
-                .ToList();
-
-            foreach (var entry in changedEntriesCopy)
-                entry.State = EntityState.Detached;*/
         }
 
 
@@ -111,24 +92,17 @@ namespace Repository
                 chat.user2.Id == user1.Id);
                });
         }
+
         public List<Chat> getAllChats()
         {
-            //Users.AsNoTracking().ToList();
-
-            //return Chats.AsNoTracking().ToList();
-
-            //List<Chat> chats = Chats.AsNoTracking().ToList();
             return Chats.Include(c=>c.user1)
                 .Include(c=>c.user2).AsNoTracking().ToList();
-
         }
 
         public void insertChat(Chat chat)
         {
-            //User us1 = new User(chat.user1.Id, chat.user1.Name, chat.user1.Server);
-            //User us2 = new User(chat.user2.Id, chat.user2.Name, chat.user2.Server);
-            //chat.user1.State = EntityState.Detached;
             DetachAllEntities();
+
             User us1 = Users.Attach(chat.user1).Entity;
             User us2 = Users.Attach(chat.user2).Entity;
             Chats.Add(new Chat
@@ -137,7 +111,6 @@ namespace Repository
                 user2 = us2
             });
 
-            //Chats.Add(chat);
             SaveChanges();
 
             Entry(chat.user1).State = EntityState.Detached;
@@ -221,8 +194,6 @@ namespace Repository
 
         public void updateImageUser(String username, String img)
         {
-            //var user = new User { Id = username, Image = img };
-            
             User? user = Users.Where(user => user.Id == username)
                 .Select(user => user).SingleOrDefault();
 
@@ -304,32 +275,20 @@ namespace Repository
         {
             foreach (MsgUsers msgUser in msg.Messages)
             {
-                //msgUser.Chat = msg.Chat;
-                //MsgUsers.Add(msgUser);
-
                 DetachAllEntities();
-                //Chat c = Chats.Attach(msgUser.Chat).Entity;
+               
                 Message message = Messages.Attach(msgUser.Message).Entity;
                 User to = Users.Attach(msgUser.To).Entity;
                 User from = Users.Attach(msgUser.From).Entity;
-                //User to = msgUser.To;
-                //User from = msgUser.From;
-
+                
                 MsgUsers newMsg = new MsgUsers(message,from, to);
-                //newMsg.Chat = c;
+               
                 MsgUsers.Add(newMsg);
 
                 SaveChanges();
 
-                //Entry(c).State = EntityState.Detached;
                 Entry(message).State = EntityState.Detached;
-                //Entry(to).State = EntityState.Detached;
-                //Entry(from).State = EntityState.Detached;
-
             }
-
-            //MsgInChat.Add(msg);
-            //SaveChanges();
 
         }
 
@@ -366,10 +325,6 @@ namespace Repository
 
         public void updateRate(Rate rate)
         {
-            /*Rate r = getRate(rate.Id);
-            r.Feedback = rate.Feedback;
-            r.Name = rate.Name;
-            r.RateNumber = rate.RateNumber;*/
             DetachAllEntities();
             Rates.Attach(rate).Property(x => x.Feedback).IsModified = true;
             SaveChanges();

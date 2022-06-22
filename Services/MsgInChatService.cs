@@ -7,16 +7,9 @@ namespace Services
 {
     public class MsgInChatService :IMsgInChatService
     {
-        
-        //private static List<MsgInChat> _msgInChatsList = new List<MsgInChat>();
-
-        //private MsgInChatContext _context;
-        //private DataContext _dataContext;
         private ServerDbContext _context;
 
         public MsgInChatService() {
-            //_dataContext = new DataContext();
-            //_context = _dataContext.msgInChatContext;
             _context = new ServerDbContext();
         }
 
@@ -76,19 +69,6 @@ namespace Services
         public void AddMsgInChat(Chat chat, MsgUsers msg)
         {
             _context.insertMsgInChat(new MsgInChat(chat, msg));
-            /*
-            var messages = GetMessagesInChat(chat);
-            //if there is no messages- need to add new
-            if(messages == null)
-            {
-                _msgInChatsList.Add(new MsgInChat(chat, msg));
-            }
-            else
-            {
-                //otherwise need to add the message to the existing list
-                messages.Add(msg);
-            }*/
-            
         }
 
         public MsgUsers CreatMsgUsers(User from, User to, Message msg)
@@ -138,7 +118,6 @@ namespace Services
                 //if we found the message in one of them
                 if (msgsUsers != null)
                 {
-                    //msgsUsers.Remove(GetMsg(msgsUsers, idMsg));
                     _context.removeMsgInChat(GetMsg(msgsUsers, idMsg));
                     return true;
                 }
@@ -153,7 +132,6 @@ namespace Services
             var msgInChatsList = _context.getAllMsgInChat();
             foreach (MsgInChat msgInChat in msgInChatsList)
             {
-                //msgInChat.Chat
                 List<MsgUsers> msgsUsers = FindAllMsgs(msgInChat.Chat, idMsg);
                 MsgUsers msgUsers = GetMsg(msgsUsers, idMsg);
                 if(msgUsers != null)

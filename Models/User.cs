@@ -5,7 +5,7 @@ namespace Models
 {
     public class User
     {
-        [Required]//unique this is key-> username
+        [Required]
         [Key]
         public string Id { get; set; }
 

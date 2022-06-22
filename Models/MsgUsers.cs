@@ -8,10 +8,6 @@ namespace Models
 	{
         [Key]
         public int Id { get; set; }
-        //[ForeignKey("ChatId")]
-        //public virtual Chat Chat { get; set; }
-    //    [Key]
-      //  public int Id { get; set; }
         [ForeignKey("MsgId")]
         public virtual Message Message { get; set; }
         [ForeignKey("FromId")]
