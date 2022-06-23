@@ -22,13 +22,15 @@ namespace WebAPI.Controllers
         private readonly IChatsService _contextChats;
         private readonly IMessagesService _contextMsg;
         private readonly IMsgInChatService _contextMsgInChat;
+        private readonly TokenList _tokenList;
 
-        public MessagesController(IMessagesService contextMsg, IMsgInChatService contextMsgInChat, IChatsService contextChats, IUsersService usersService)
+        public MessagesController(IMessagesService contextMsg, IMsgInChatService contextMsgInChat, IChatsService contextChats, IUsersService usersService, TokenList tokenList)
         {
             _contextMsg = contextMsg;
             _contextMsgInChat = contextMsgInChat;
             _contextChats = contextChats;
             _contextUsers = usersService;
+            _tokenList = tokenList;
         }
 
         // GET: api/Contacts/:userName/Messages
@@ -99,7 +101,7 @@ namespace WebAPI.Controllers
         // POST api/Contacts/:userName/Messages
         [HttpPost]
         //create new msg between users- currentUserName send to userName
-        public IActionResult Post(string userName, [FromBody] TmpMsg content)
+        public async Task<IActionResult>  Post(string userName, [FromBody] TmpMsg content)
         {
             string currentUserName = HttpContext.Session.GetString("username");
             if (currentUserName == null)
@@ -131,6 +133,15 @@ namespace WebAPI.Controllers
 
             userTo.lastdate = DateTime.Now.ToString();
             userFrom.lastdate = DateTime.Now.ToString();
+
+            // check if sent to android or react:
+            string token = _tokenList.getTokenByUser(userTo.Id);
+            if (token != null) // send  android
+            {
+                MobileMessagingClient moblie = new MobileMessagingClient();
+                await moblie.SendNotification(userTo.Id, chat.ChatId.ToString(), token, "Got new message", content.Content);
+            }
+            //else to react- will get there alone
 
             return Created("Post", new { Content = msg.Content });
         }
