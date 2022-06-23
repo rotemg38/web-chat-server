@@ -46,6 +46,9 @@ We recommend on Visual Studios as an excellent IDE therefore we will explain how
 
 First, set the **connection string** to your sql server in file **ServerDbContext.cs** in Repository project.
 
+**If you use the server with the android app:**
+Update the file ./WebApi/serviceAccountKey.json to the generated firebase key of the android app.
+
 Secondly, open the "WebApi" project and right click on its title.
 
 *Debug -> Start new instance*
