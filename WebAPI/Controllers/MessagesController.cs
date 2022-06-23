@@ -142,7 +142,8 @@ namespace WebAPI.Controllers
             if (token != null) // send  android
             {
                 MobileMessagingClient moblie = new MobileMessagingClient();
-                await moblie.SendNotification(userTo.Id, chat.ChatId.ToString(), token, "Got new message", content.Content);
+                //await moblie.SendNotification(userTo.Id, chat.ChatId.ToString(), token, "Got new message", content.Content);
+                await moblie.SendNotification(userTo.Id, userFrom.Id, token, "Got new message", content.Content);
             }
             //else to react- will get there alone
 

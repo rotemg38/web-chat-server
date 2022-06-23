@@ -16,11 +16,12 @@ public class MobileMessagingClient
             }
         }
 
-        private Message CreateNotification(string toUser, string chatId, string title, string notificationBody, string token)
+        private Message CreateNotification(string toUser, string fromUser, string title, string notificationBody, string token)
         {
             Dictionary<string, string> list = new Dictionary<string, string>();
             list["toUser"] = toUser;
-            list["chatId"] = chatId;
+            //list["chatId"] = chatId;
+            list["fromUser"] = fromUser;
             list["text"] = notificationBody;
             return new Message()
             {
@@ -34,8 +35,8 @@ public class MobileMessagingClient
         };
     }
 
-    public async Task SendNotification(string username, string userchat, string token, string title, string body)
+    public async Task SendNotification(string username, string otherUser, string token, string title, string body)
         {
-            await messaging.SendAsync(CreateNotification(username, userchat, title, body, token));
+            await messaging.SendAsync(CreateNotification(username, otherUser, title, body, token));
         }
     }

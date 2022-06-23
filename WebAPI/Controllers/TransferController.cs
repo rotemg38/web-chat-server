@@ -63,11 +63,12 @@ namespace WebAPI.Controllers
             if (token != null) // send  android
             {
                 MobileMessagingClient moblie = new MobileMessagingClient();
-                await moblie.SendNotification(userTo.Id, chat.ChatId.ToString(), token, "Got new message", info.Content);
+                //await moblie.SendNotification(userTo.Id, chat.ChatId.ToString(), token, "Got new message", info.Content);
+                await moblie.SendNotification(userTo.Id, userFrom.Id, token, "Got new message", info.Content);
             } else // sent to react
             {
-                MsgHub hub = new MsgHub();
-                await hub.SentMessage(info.Content, userTo.Id);
+                //MsgHub hub = new MsgHub();
+                //await hub.SentMessage(info.Content, userTo.Id);
             }
             return Created("Post", info);
         }
