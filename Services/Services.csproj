@@ -10,8 +10,9 @@
 
     <PackageReference Include="FirebaseAdmin" Version="2.3.0" />
   </ItemGroup>
-    <ProjectReference Include="..\Models\Models.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Models\Models.csproj" />
+	</ItemGroup>
   <ItemGroup>
     <None Remove="Microsoft.EntityFrameworkCore, Version=6.0.6.0, Culture=neutral, PublicKeyToken=adb9793829ddae60" />
     <None Remove="FirebaseAdmin" />
