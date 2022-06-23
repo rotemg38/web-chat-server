@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using Services;
 
 namespace WebAPI.Hubs
 {
@@ -12,6 +13,7 @@ namespace WebAPI.Hubs
         /// </summary>
         /// <param name="msg">the message</param>
         /// <param name="userName">the user the message ment for</param>
+        /// <param name="sentUser"> the user that sent the message</param>
         /// <returns></returns>
         public async Task SentMessage(string msg, string userName)
         {
