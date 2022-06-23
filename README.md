@@ -1,6 +1,8 @@
 # AdvancedProgrammingWeb
 This is a Web Server side of our chat application which is part of a bigger project for the course Advanced Programming 2.
 
+This server works with local SQL Server.
+
 ## Description
 The web server includes the rating page of client side and the API that connect with the client.
 
@@ -32,6 +34,7 @@ The API includes the following **commands**:
 - C#
 - Sessions
 - SignalR
+- Entity Framework
 
 ## Getting Started
 
@@ -41,7 +44,9 @@ Download the project and via your prefered IDE run the application.
 
 We recommend on Visual Studios as an excellent IDE therefore we will explain how to run our project on this IDE.
 
-First, open the "WebApi" project and right click on its title.
+First, set the **connection string** to your sql server in file **ServerDbContext.cs** in Repository project.
+
+Secondly, open the "WebApi" project and right click on its title.
 
 *Debug -> Start new instance*
 

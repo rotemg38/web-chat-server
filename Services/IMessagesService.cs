@@ -4,7 +4,7 @@ namespace Services
 {
 	public interface IMessagesService
 	{
-        public int GenerateMsgId();
+        //public int GenerateMsgId();
 
         public Message AddMsg(string content, bool sent);
 

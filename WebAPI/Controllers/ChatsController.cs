@@ -23,6 +23,21 @@ namespace WebAPI.Controllers
             _contextChats = contextChats;
         }
 
+        // GET: api/chats/msgs/:chatId
+        [HttpGet("msgs/{username}/{chatId}")]
+        public IActionResult Get(string username, int chatId)
+        {
+            if (username == null)
+            {
+                return NotFound();
+            }
+            List<MsgUsers> messages = _contextMsgInChat.GetMessagesInChat(chatId);
+            List<Message> msgs = _contextMsgInChat.ExtractMessages(messages);
+            List<Message> fixedMsgs = _contextMsgInChat.GetCopyWithFixedSent(username, msgs);
+
+            return Content(JsonSerializer.Serialize(fixedMsgs));
+        }
+
 
         // GET: api/chats/:chatId
         [HttpGet("{chatId}")]

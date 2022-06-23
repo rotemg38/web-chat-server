@@ -134,6 +134,9 @@ namespace WebAPI.Controllers
             userTo.lastdate = DateTime.Now.ToString();
             userFrom.lastdate = DateTime.Now.ToString();
 
+            _contextUsers.updateUserLastMsg(userTo);
+            _contextUsers.updateUserLastMsg(userFrom);
+
             // check if sent to android or react:
             string token = _tokenList.getTokenByUser(userTo.Id);
             if (token != null) // send  android
@@ -142,6 +145,7 @@ namespace WebAPI.Controllers
                 await moblie.SendNotification(userTo.Id, chat.ChatId.ToString(), token, "Got new message", content.Content);
             }
             //else to react- will get there alone
+
 
             return Created("Post", new { Content = msg.Content });
         }
