@@ -15,6 +15,8 @@ builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<IChatsService, ChatsService>();
 builder.Services.AddScoped<IMessagesService, MessagesService>();
 builder.Services.AddScoped<IMsgInChatService, MsgInChatService>();
+builder.Services.AddScoped<TokenList>();
+builder.Services.AddSingleton<MobileMessagingClient>();
 
 builder.Services.AddSignalR();
 
